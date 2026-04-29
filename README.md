@@ -2,7 +2,7 @@
 
 > AI-powered competition intelligence platform for entrepreneurs
 
-**Live Demo:** [ghostwhistle.github.io/traction-scope](https://ghostwhistle.github.io/Traction-Scope/)
+**Live Demo:** [ghostwhistle.github.io/traction-scope](https://alimc48.github.io/Traction-Scope/)
 
 ---
 
