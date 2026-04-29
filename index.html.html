@@ -1,0 +1,2197 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Traction Scope Ultimate — AI Rekabet İstihbarat Platformu</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,800;0,9..144,900;1,9..144,400&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg:#020409;--s1:#080c16;--s2:#0e1322;--s3:#151c30;--s4:#1c2540;
+--b1:#1a2240;--b2:#252e50;--b3:#303a60;
+--tx:#e8ecf8;--tx2:#8892b5;--tx3:#5a6488;
+--blue:#3b82f6;--indigo:#6366f1;--violet:#8b5cf6;--purple:#a855f7;
+--emerald:#10b981;--teal:#14b8a6;--cyan:#06b6d4;
+--amber:#f59e0b;--orange:#f97316;
+--rose:#f43f5e;--red:#ef4444;--pink:#ec4899;
+--lime:#84cc16;--sky:#0ea5e9;
+--g1:linear-gradient(135deg,#3b82f6,#6366f1,#8b5cf6);
+--g2:linear-gradient(135deg,#10b981,#14b8a6);
+--g3:linear-gradient(135deg,#fbbf24,#f97316);
+}
+html.light{
+--bg:#f5f7fb;--s1:#ffffff;--s2:#f0f2f8;--s3:#e4e7f0;--s4:#d8dce8;
+--b1:#d0d5e3;--b2:#bfc5d6;--b3:#aab2c8;
+--tx:#1a1d2a;--tx2:#4a5068;--tx3:#7a8098;
+}
+html{font-size:14.5px;scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;overflow-x:hidden;line-height:1.5;transition:background .4s,color .4s}
+
+/* === BG === */
+.bg-w{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.bg-w .orb{position:absolute;border-radius:50%;filter:blur(120px);opacity:.04}
+.bg-w .orb.a{width:800px;height:800px;top:-300px;left:-200px;background:#3b82f6;animation:orb1 30s ease-in-out infinite}
+.bg-w .orb.b{width:600px;height:600px;bottom:-200px;right:-100px;background:#8b5cf6;animation:orb2 25s ease-in-out infinite}
+.bg-w .orb.c{width:400px;height:400px;top:40%;left:50%;background:#10b981;animation:orb3 20s ease-in-out infinite}
+@keyframes orb1{0%,100%{transform:translate(0,0)}50%{transform:translate(60px,40px)}}
+@keyframes orb2{0%,100%{transform:translate(0,0)}50%{transform:translate(-50px,-30px)}}
+@keyframes orb3{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.3)}}
+.bg-grid{position:fixed;inset:0;z-index:0;opacity:.02;background-image:linear-gradient(rgba(99,102,241,.5) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,.5) 1px,transparent 1px);background-size:80px 80px}
+
+.app{position:relative;z-index:1;max-width:1140px;margin:0 auto;padding:1.5rem 1.2rem 4rem}
+
+/* === TOP BAR === */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:flex-end;align-items:center;gap:8px;padding:10px 20px;background:rgba(2,4,9,.7);backdrop-filter:blur(16px);border-bottom:1px solid rgba(26,34,64,.5)}
+.cur-sel,.lang-sel{display:flex;border-radius:8px;overflow:hidden;border:1px solid var(--b1);background:var(--s1)}
+.cur-sel select{padding:5px 10px;font-family:'Outfit';font-size:12px;font-weight:600;border:none;background:transparent;color:var(--tx2);cursor:pointer;outline:none;appearance:none}
+.cur-sel select option{background:var(--s2);color:var(--tx)}
+.lb{padding:5px 12px;font-family:'Outfit';font-size:11.5px;font-weight:600;border:none;cursor:pointer;background:transparent;color:var(--tx3);transition:all .25s}
+.lb.on{background:var(--g1);color:#fff}
+.lb:hover:not(.on){color:var(--tx2)}
+
+/* === HEADER === */
+.hdr{text-align:center;margin:3.5rem 0 2rem;animation:fu .7s ease}
+.hdr-tag{display:inline-flex;align-items:center;gap:6px;padding:4px 14px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:.12em;background:rgba(99,102,241,.08);color:var(--indigo);border:1px solid rgba(99,102,241,.15);margin-bottom:12px}
+.hdr-tag .dot{width:6px;height:6px;border-radius:50%;background:var(--indigo);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.logo-r{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px}
+.logo-m{width:52px;height:52px;border-radius:15px;background:var(--g1);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(99,102,241,.2),inset 0 1px 0 rgba(255,255,255,.1);position:relative;overflow:hidden}
+.logo-m::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 40%,rgba(255,255,255,.12) 50%,transparent 60%);animation:shine 4s infinite}
+@keyframes shine{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+.logo-m svg{width:26px;height:26px;fill:#fff;position:relative;z-index:1}
+.logo-t{font-family:'Fraunces',serif;font-size:2.2rem;font-weight:900;background:var(--g1);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hdr>p{color:var(--tx2);font-size:13px;max-width:580px;margin:0 auto;line-height:1.7}
+
+/* === STEPPER === */
+.steps{display:flex;justify-content:center;align-items:center;margin-bottom:2rem;animation:fu .7s .1s both}
+.st-d{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono';font-size:13px;font-weight:600;border:2px solid var(--b1);color:var(--tx3);background:var(--s1);cursor:pointer;transition:all .35s}
+.st-d.on{border-color:var(--blue);color:#fff;background:var(--blue);box-shadow:0 0 20px rgba(59,130,246,.25)}
+.st-d.done{border-color:var(--emerald);color:#fff;background:var(--emerald)}
+.st-line{width:48px;height:2px;background:var(--b1);margin:0 4px;transition:background .4s}
+.st-line.done{background:var(--emerald)}
+.st-lb{font-size:10px;color:var(--tx3);text-align:center;margin-top:4px;font-weight:500}
+
+/* === PANELS === */
+.pnl{display:none;animation:si .35s ease}.pnl.on{display:block}
+@keyframes si{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:none}}
+@keyframes fu{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.sec-t{font-family:'Fraunces',serif;font-size:1.25rem;font-weight:800;margin-bottom:4px}
+.sec-d{color:var(--tx2);font-size:12.5px;margin-bottom:1.4rem}
+.fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1rem}
+.fg-full{grid-column:1/-1}
+.ig{position:relative}
+.ig label{display:block;font-size:11px;font-weight:600;color:var(--tx3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:3px}
+.ig input,.ig select,.ig textarea{width:100%;padding:9px 12px;border-radius:9px;border:1.5px solid var(--b1);background:var(--s2);color:var(--tx);font-family:'Outfit';font-size:13.5px;outline:none;transition:all .3s}
+.ig textarea{resize:vertical;min-height:76px}
+.ig input:focus,.ig select:focus,.ig textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(59,130,246,.07);transform:translateY(-1px)}
+.ig input::placeholder,.ig textarea::placeholder{color:var(--tx3)}
+.ig .ht{font-size:10.5px;color:var(--tx3);margin-top:2px}
+.ig select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='%235a6488' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
+.ig select option{background:var(--s2);color:var(--tx)}
+/* Currency prefix */
+.cur-input{position:relative}
+.cur-input .cur-pre{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:12px;font-weight:600;color:var(--tx3);pointer-events:none}
+.cur-input input{padding-left:32px}
+
+/* === SLIDER === */
+.sl-w{display:flex;align-items:center;gap:10px}
+.sl-w input[type=range]{flex:1;-webkit-appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;background:var(--b1);transition:background .3s}
+.sl-w input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--blue);cursor:pointer;box-shadow:0 2px 8px rgba(59,130,246,.25);transition:transform .15s}
+.sl-w input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15)}
+.sl-w input[type=range]::-webkit-slider-thumb:active{transform:scale(.95)}
+.sl-v{font-family:'IBM Plex Mono';font-size:13px;font-weight:700;color:var(--blue);min-width:26px;text-align:center}
+
+/* === BUTTONS === */
+.nav-r{display:flex;justify-content:space-between;margin-top:1.6rem;gap:10px}
+.btn{padding:9px 22px;border-radius:11px;font-family:'Outfit';font-size:13.5px;font-weight:600;cursor:pointer;transition:all .3s;border:none;display:inline-flex;align-items:center;gap:7px}
+.btn-b{background:transparent;border:1.5px solid var(--b1);color:var(--tx2)}
+.btn-b:hover{border-color:var(--blue);color:var(--tx)}
+.btn-n{background:var(--g1);color:#fff;box-shadow:0 5px 20px rgba(99,102,241,.2)}
+.btn-n:hover{transform:translateY(-1px);box-shadow:0 8px 28px rgba(99,102,241,.3)}
+.btn-a{background:var(--g1);color:#fff;box-shadow:0 8px 32px rgba(99,102,241,.25);font-size:15px;padding:12px 32px}
+.btn-a:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(99,102,241,.35)}
+
+/* === LOADING === */
+.ld-ov{display:none;position:fixed;inset:0;z-index:200;background:rgba(2,4,9,.96);backdrop-filter:blur(20px);flex-direction:column;align-items:center;justify-content:center;gap:18px}
+.ld-ov.show{display:flex}
+.ld-sp{width:64px;height:64px;border-radius:50%;border:3px solid var(--b1);border-top-color:var(--blue);border-right-color:var(--indigo);animation:spin .75s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ld-tx{color:var(--tx2);font-size:13.5px}
+.ld-st{display:flex;flex-direction:column;gap:5px}
+.ls{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--tx3);transition:all .5s}
+.ls.ok{color:var(--emerald)}
+.ls .ck{width:16px;height:16px;border-radius:50%;border:1.5px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:8px;transition:all .5s}
+.ls.ok .ck{background:rgba(16,185,129,.1)}
+
+/* === RESULTS === */
+.res{display:none;animation:fu .5s ease}.res.show{display:block}
+.card{background:var(--s1);border:1px solid var(--b1);border-radius:16px;padding:1.6rem;margin-bottom:1rem;position:relative;overflow:hidden;transition:border-color .3s}
+.card:hover{border-color:var(--b2)}
+.card-ac{position:absolute;top:0;left:0;right:0;height:3px;background:var(--g1)}
+.card-t{font-family:'Fraunces',serif;font-size:1.05rem;font-weight:800;margin-bottom:.7rem;display:flex;align-items:center;gap:7px}
+.card-sub{font-size:11.5px;color:var(--tx3);margin-bottom:.8rem}
+.hero{text-align:center;padding:2.2rem 1.5rem}
+.hero-name{font-family:'Fraunces',serif;font-size:1.7rem;font-weight:900;margin-bottom:3px}
+.hero-meta{color:var(--tx2);font-size:12.5px;margin-bottom:1.3rem}
+.circ-w{display:flex;justify-content:center;gap:3rem;flex-wrap:wrap;margin-bottom:.8rem}
+.circ{text-align:center;position:relative;width:150px;height:150px}
+.circ svg{width:150px;height:150px}
+.circ .trail{fill:none;stroke:var(--b1);stroke-width:7}
+.circ .prog{fill:none;stroke-width:7;stroke-linecap:round;transition:stroke-dashoffset 2s cubic-bezier(.22,1,.36,1)}
+.circ-num{position:absolute;top:50%;left:50%;transform:translate(-50%,-55%);font-family:'IBM Plex Mono';font-size:2.2rem;font-weight:700}
+.circ-lbl{position:absolute;top:50%;left:50%;transform:translate(-50%,55%);font-size:11px;color:var(--tx2);white-space:nowrap}
+.verdict{display:inline-block;padding:5px 16px;border-radius:8px;font-size:12.5px;font-weight:700;margin-top:.5rem}
+
+.dim-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:8px;margin-bottom:1rem}
+.dm{background:var(--s1);border:1px solid var(--b1);border-radius:13px;padding:1.1rem;transition:all .3s}
+.dm:hover{border-color:var(--b2);transform:translateY(-2px)}
+.dm-ic{font-size:1.2rem;margin-bottom:6px}
+.dm-lb{font-size:11.5px;font-weight:600;color:var(--tx2);margin-bottom:5px}
+.dm-sc{font-family:'IBM Plex Mono';font-size:1.4rem;font-weight:700;margin-bottom:5px}
+.dm-bar{height:4px;border-radius:2px;background:var(--s3);overflow:hidden}
+.dm-fill{height:100%;border-radius:2px;transition:width 1.5s cubic-bezier(.22,1,.36,1)}
+
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:720px){.g2{grid-template-columns:1fr}}
+
+.swot-g{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sw-c{background:var(--s2);border-radius:11px;padding:1rem}
+.sw-c h4{font-size:12.5px;font-weight:700;margin-bottom:6px}
+.sw-c li{font-size:11.5px;color:var(--tx2);line-height:1.7;list-style:none;padding-left:10px;position:relative}
+.sw-c li::before{content:'›';position:absolute;left:0;font-weight:700}
+
+.ai-b{background:var(--s1);border:1px solid var(--b1);border-radius:16px;padding:1.6rem;margin-bottom:1rem;position:relative;overflow:hidden}
+.ai-b::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--g1)}
+.ai-txt{color:var(--tx2);font-size:13px;line-height:1.85;white-space:pre-line}
+.ai-loading{display:flex;align-items:center;gap:10px;padding:1.2rem;color:var(--tx2);font-size:12.5px}
+.ai-spin{width:18px;height:18px;border-radius:50%;border:2px solid var(--b1);border-top-color:var(--blue);animation:spin .8s linear infinite}
+.ai-typing{display:inline-block;overflow:hidden;white-space:pre-line;border-right:2px solid var(--blue);animation:blink-caret .7s step-end infinite}
+@keyframes blink-caret{50%{border-color:transparent}}
+
+.rec-i{display:flex;gap:10px;padding:.9rem;background:var(--s2);border:1px solid var(--b1);border-radius:11px;margin-bottom:6px;transition:all .3s}
+.rec-i:hover{border-color:var(--b2)}
+.rec-n{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono';font-size:12px;font-weight:700;flex-shrink:0}
+.rec-c h4{font-size:13px;font-weight:600;margin-bottom:2px}
+.rec-c p{font-size:11.5px;color:var(--tx2);line-height:1.5}
+.rec-tag{display:inline-block;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:600;margin-top:3px}
+
+.acts{display:flex;justify-content:center;gap:10px;margin-top:1.5rem;flex-wrap:wrap}
+.ftr{text-align:center;margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--b1);color:var(--tx3);font-size:11px}
+.ftr a{color:var(--blue);text-decoration:none}
+
+/* HeatMap */
+.hm-grid{display:grid;gap:3px}
+.hm-cell{height:30px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:rgba(255,255,255,.9);transition:all .3s}
+.hm-lbl{font-size:11px;font-weight:600;color:var(--tx2);display:flex;align-items:center}
+.hm-hlbl{font-size:10px;font-weight:600;color:var(--tx3);text-align:center;padding:4px 0}
+
+@media(max-width:640px){
+html{font-size:13.5px}
+.fg,.dim-g{grid-template-columns:1fr}
+.g2,.swot-g{grid-template-columns:1fr}
+.app{padding:1rem .8rem 3rem}
+.circ-w{gap:1.5rem}
+.steps .st-line{width:28px}
+}
+/* Competitors */
+.rival-cards{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.rival-card{background:var(--s2);border:1px solid var(--b1);border-radius:10px;padding:10px 12px;display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:end;animation:fu .3s ease}
+.rival-card input{width:100%;padding:6px 8px;border-radius:7px;border:1px solid var(--b1);background:var(--s3);color:var(--tx);font-family:'Outfit';font-size:12px;outline:none}
+.rival-card input:focus{border-color:var(--blue)}
+.rival-card .rv-del{width:28px;height:28px;border-radius:7px;border:1px solid var(--b1);background:transparent;color:var(--rose);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.rival-card .rv-del:hover{background:rgba(244,63,94,.1);border-color:var(--rose)}
+.add-rival{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:8px;border:1.5px dashed var(--b2);background:transparent;color:var(--tx3);font-family:'Outfit';font-size:12px;font-weight:500;cursor:pointer;transition:all .2s;margin-top:6px}
+.add-rival:hover{border-color:var(--blue);color:var(--blue)}
+
+/* Scenario cards */
+.scen-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
+.scen-c{border-radius:12px;padding:1.1rem;text-align:center;border:1px solid var(--b1)}
+.scen-c h4{font-size:12px;font-weight:700;margin-bottom:4px}
+.scen-c .scen-val{font-family:'IBM Plex Mono';font-size:1.3rem;font-weight:700}
+.scen-c .scen-sub{font-size:10.5px;color:var(--tx2);margin-top:2px}
+
+/* Break-even */
+.be-stats{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:10px}
+.be-stat{background:var(--s2);border-radius:10px;padding:10px 16px;flex:1;min-width:140px}
+.be-stat .be-lbl{font-size:10.5px;color:var(--tx3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px}
+.be-stat .be-val{font-family:'IBM Plex Mono';font-size:1.1rem;font-weight:700}
+
+/* Scorecard */
+.sc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:6px}
+.sc-item{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--s2);border-radius:8px}
+.sc-item .sc-name{font-size:12px;font-weight:500;color:var(--tx2)}
+.sc-item .sc-stars{display:flex;gap:2px}
+.sc-item .sc-star{font-size:12px}
+
+/* Comparison table */
+.cmp-wrap{overflow-x:auto}
+.cmp-tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:12px}
+.cmp-tbl th{padding:8px 10px;text-align:left;font-weight:600;color:var(--tx3);border-bottom:1px solid var(--b1);font-size:11px;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+.cmp-tbl td{padding:7px 10px;border-bottom:1px solid rgba(26,34,64,.4);color:var(--tx2)}
+.cmp-tbl tr:hover td{background:rgba(59,130,246,.03)}
+.cmp-tbl .cmp-you{color:var(--indigo);font-weight:600}
+.cmp-tbl .cmp-badge{display:inline-block;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:600}
+
+@media print{.topbar,.acts,.btn,.intro-ov{display:none!important}.app{padding:0!important}.bg-w,.bg-grid{display:none!important}body{background:#fff!important;color:#000!important}.card,.dm,.ai-b{border-color:#ddd!important;background:#fff!important;break-inside:avoid}.card-ac{background:#333!important}}
+
+/* Intro Screen */
+.intro-ov{position:fixed;inset:0;z-index:300;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;transition:opacity .8s,transform .8s}
+.intro-ov.hide{opacity:0;transform:scale(1.05);pointer-events:none}
+.intro-logo{width:80px;height:80px;border-radius:22px;background:var(--g1);display:flex;align-items:center;justify-content:center;box-shadow:0 15px 60px rgba(99,102,241,.3);animation:intro-pop .6s cubic-bezier(.34,1.56,.64,1) both}
+.intro-logo svg{width:40px;height:40px;fill:#fff}
+@keyframes intro-pop{from{transform:scale(0) rotate(-20deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+.intro-title{font-family:'Fraunces',serif;font-size:3rem;font-weight:900;background:var(--g1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-top:16px;opacity:0;animation:intro-text .7s .3s ease forwards}
+.intro-tagline{color:var(--tx2);font-size:14px;margin-top:6px;opacity:0;animation:intro-text .7s .5s ease forwards;text-align:center;max-width:400px;line-height:1.6}
+.intro-features{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:24px;opacity:0;animation:intro-text .7s .7s ease forwards}
+.intro-feat{padding:5px 14px;border-radius:20px;font-size:11px;font-weight:600;border:1px solid var(--b1);color:var(--tx2);background:var(--s1)}
+.intro-start{margin-top:28px;padding:14px 40px;border-radius:14px;border:none;background:var(--g1);color:#fff;font-family:'Outfit';font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 10px 40px rgba(99,102,241,.3);opacity:0;animation:intro-text .7s .9s ease forwards;transition:transform .3s,box-shadow .3s}
+.intro-start:hover{transform:translateY(-3px);box-shadow:0 14px 50px rgba(99,102,241,.4)}
+@keyframes intro-text{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.intro-particles{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.intro-particles .p{position:absolute;border-radius:50%;background:var(--indigo);opacity:.06;animation:float-p linear infinite}
+@keyframes float-p{0%{transform:translateY(100vh) scale(0)}50%{opacity:.12}100%{transform:translateY(-10vh) scale(1);opacity:0}}
+
+/* BMC */
+.bmc-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;grid-template-rows:auto auto;gap:4px;font-size:11px}
+.bmc-cell{background:var(--s2);border:1px solid var(--b1);border-radius:8px;padding:8px 10px;min-height:80px}
+.bmc-cell h5{font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;display:flex;align-items:center;gap:4px}
+.bmc-cell ul{list-style:none;color:var(--tx2);line-height:1.6}
+.bmc-cell ul li{padding-left:8px;position:relative}
+.bmc-cell ul li::before{content:'·';position:absolute;left:0;font-weight:700}
+.bmc-span2{grid-row:span 2}
+.bmc-wide{grid-column:span 2}
+@media(max-width:720px){.bmc-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto}.bmc-span2{grid-row:auto}.bmc-wide{grid-column:auto}}
+
+/* Pitch */
+.pitch-box{background:var(--s1);border:1px solid var(--b1);border-radius:16px;overflow:hidden;margin-bottom:1rem}
+.pitch-header{background:var(--g1);padding:16px 20px;display:flex;align-items:center;justify-content:space-between}
+.pitch-header h3{color:#fff;font-family:'Fraunces',serif;font-size:1.1rem;font-weight:800}
+.pitch-body{padding:16px 20px}
+.pitch-row{display:grid;grid-template-columns:120px 1fr;gap:8px;padding:8px 0;border-bottom:1px solid var(--b1)}
+.pitch-row:last-child{border-bottom:none}
+.pitch-label{font-size:11px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:.05em}
+.pitch-val{font-size:13px;color:var(--tx2);line-height:1.6}
+.pitch-highlight{background:var(--s2);border-radius:10px;padding:12px 16px;margin-top:10px}
+.pitch-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-top:10px}
+.pitch-metric{text-align:center;padding:10px;background:var(--s2);border-radius:8px}
+.pitch-metric .pm-val{font-family:'IBM Plex Mono';font-size:1.2rem;font-weight:700}
+.pitch-metric .pm-lbl{font-size:10px;color:var(--tx3);margin-top:2px}
+
+/* Live Data */
+.live-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px}
+.live-card{background:var(--s2);border:1px solid var(--b1);border-radius:10px;padding:12px}
+.live-card .lv-icon{font-size:1.1rem;margin-bottom:4px}
+.live-card .lv-title{font-size:11px;font-weight:600;color:var(--tx3);margin-bottom:4px}
+.live-card .lv-val{font-size:13px;color:var(--tx);line-height:1.5}
+.live-loading{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--tx3)}
+.live-spin{width:14px;height:14px;border-radius:50%;border:2px solid var(--b1);border-top-color:var(--blue);animation:spin .8s linear infinite}
+
+/* Theme toggle */
+.theme-tog{width:36px;height:20px;border-radius:10px;border:1.5px solid var(--b1);background:var(--s2);cursor:pointer;position:relative;transition:all .3s;display:flex;align-items:center;padding:0 2px}
+.theme-tog .tog-dot{width:14px;height:14px;border-radius:50%;background:var(--g1);transition:transform .3s;display:flex;align-items:center;justify-content:center;font-size:8px}
+html.light .theme-tog .tog-dot{transform:translateX(16px)}
+.theme-tog:hover{border-color:var(--blue)}
+
+/* Exec Dashboard */
+.exec-dash{background:var(--s1);border:1px solid var(--b1);border-radius:16px;padding:1.6rem;margin-bottom:1rem;position:relative;overflow:hidden}
+.exec-dash .card-ac{position:absolute;top:0;left:0;right:0;height:3px;background:var(--g1)}
+.exec-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.exec-mini{background:var(--s2);border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:10px}
+.exec-mini .em-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.exec-mini .em-val{font-family:'IBM Plex Mono';font-size:1.1rem;font-weight:700}
+.exec-mini .em-lbl{font-size:10px;color:var(--tx3)}
+.exec-gauge{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin-top:10px}
+.exec-gauge-item{text-align:center;width:60px}
+.exec-gauge-item .eg-bar{height:50px;width:22px;border-radius:5px;background:var(--s3);margin:0 auto;position:relative;overflow:hidden}
+.exec-gauge-item .eg-fill{position:absolute;bottom:0;width:100%;border-radius:5px;transition:height 1.5s cubic-bezier(.22,1,.36,1)}
+.exec-gauge-item .eg-lbl{font-size:9px;color:var(--tx3);margin-top:3px;line-height:1.2}
+
+/* History Sidebar */
+.hist-btn{position:fixed;bottom:20px;right:20px;z-index:40;width:44px;height:44px;border-radius:12px;background:var(--g1);border:none;color:#fff;font-size:18px;cursor:pointer;box-shadow:0 6px 24px rgba(99,102,241,.3);display:flex;align-items:center;justify-content:center;transition:transform .3s}
+.hist-btn:hover{transform:scale(1.08)}
+.hist-panel{position:fixed;top:0;right:-380px;bottom:0;width:360px;z-index:200;background:var(--s1);border-left:1px solid var(--b1);box-shadow:-8px 0 40px rgba(0,0,0,.3);transition:right .4s cubic-bezier(.22,1,.36,1);overflow-y:auto;padding:16px}
+.hist-panel.open{right:0}
+.hist-overlay{position:fixed;inset:0;z-index:190;background:rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:opacity .3s}
+.hist-overlay.open{opacity:1;pointer-events:auto}
+.hist-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.hist-header h3{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:800}
+.hist-close{width:30px;height:30px;border-radius:8px;border:1px solid var(--b1);background:transparent;color:var(--tx2);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center}
+.hist-item{background:var(--s2);border:1px solid var(--b1);border-radius:10px;padding:10px 12px;margin-bottom:8px;cursor:pointer;transition:all .2s}
+.hist-item:hover{border-color:var(--blue)}
+.hist-item .hi-name{font-size:13px;font-weight:600;margin-bottom:2px}
+.hist-item .hi-meta{font-size:11px;color:var(--tx3)}
+.hist-item .hi-score{font-family:'IBM Plex Mono';font-size:12px;font-weight:700;float:right}
+.hist-empty{text-align:center;padding:30px 10px;color:var(--tx3);font-size:13px}
+
+/* Share Modal */
+.share-modal{position:fixed;inset:0;z-index:250;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center}
+.share-modal.open{display:flex}
+.share-box{background:var(--s1);border:1px solid var(--b1);border-radius:18px;padding:24px;width:90%;max-width:440px;text-align:center;animation:fu .3s ease}
+.share-box h3{font-family:'Fraunces',serif;font-size:1.2rem;font-weight:800;margin-bottom:12px}
+.share-links{display:flex;gap:10px;justify-content:center;margin:16px 0}
+.share-link{width:48px;height:48px;border-radius:12px;border:1px solid var(--b1);background:var(--s2);display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;transition:all .2s;text-decoration:none}
+.share-link:hover{border-color:var(--blue);transform:translateY(-2px)}
+.share-url{display:flex;gap:6px;margin-top:12px}
+.share-url input{flex:1;padding:8px 12px;border-radius:8px;border:1px solid var(--b1);background:var(--s2);color:var(--tx);font-family:'Outfit';font-size:12px;outline:none}
+.share-url button{padding:8px 14px;border-radius:8px;border:none;background:var(--g1);color:#fff;font-family:'Outfit';font-size:12px;font-weight:600;cursor:pointer}
+.share-close{margin-top:14px;padding:8px 20px;border-radius:8px;border:1px solid var(--b1);background:transparent;color:var(--tx2);font-family:'Outfit';font-size:12px;cursor:pointer}
+
+/* Light theme overrides */
+html.light .bg-w .orb{opacity:.03}
+html.light .bg-grid{opacity:.015}
+html.light .topbar{background:rgba(245,247,251,.85)}
+html.light .intro-ov{background:var(--bg)}
+html.light .card,.html.light .dm{box-shadow:0 1px 4px rgba(0,0,0,.05)}
+html.light svg text{fill:var(--tx2) !important}
+
+/* Benchmark bars */
+.bench-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.bench-label{width:100px;font-size:11px;font-weight:600;color:var(--tx3);text-align:right;flex-shrink:0}
+.bench-track{flex:1;height:28px;background:var(--s2);border-radius:6px;position:relative;overflow:hidden}
+.bench-avg{position:absolute;height:100%;background:rgba(99,102,241,.12);border-radius:6px;display:flex;align-items:center;justify-content:flex-end;padding-right:6px}
+.bench-avg span{font-size:9px;font-weight:600;color:var(--indigo);opacity:.7}
+.bench-you{position:absolute;height:100%;border-radius:6px;display:flex;align-items:center;justify-content:flex-end;padding-right:6px;z-index:1;transition:width 1.5s cubic-bezier(.22,1,.36,1)}
+.bench-you span{font-size:10px;font-weight:700;color:#fff}
+.bench-legend{display:flex;gap:16px;justify-content:center;margin-top:10px;font-size:11px;color:var(--tx3)}
+.bench-legend .bl-dot{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:4px;vertical-align:middle}
+
+/* Checklist */
+.cl-timeline{position:relative;padding-left:24px}
+.cl-timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:2px;background:var(--b1)}
+.cl-week{margin-bottom:14px}
+.cl-week-title{font-size:12px;font-weight:700;color:var(--indigo);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.cl-week-title::before{content:'';width:12px;height:12px;border-radius:50%;background:var(--indigo);position:absolute;left:3px}
+.cl-item{display:flex;align-items:center;gap:8px;padding:6px 10px;background:var(--s2);border-radius:8px;margin-bottom:4px;cursor:pointer;transition:all .2s;font-size:12px;color:var(--tx2)}
+.cl-item:hover{background:var(--s3)}
+.cl-item.done{opacity:.5;text-decoration:line-through}
+.cl-check{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--b2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;transition:all .2s}
+.cl-item.done .cl-check{background:var(--emerald);border-color:var(--emerald);color:#fff}
+.cl-progress{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.cl-progress-bar{flex:1;height:6px;background:var(--s3);border-radius:3px;overflow:hidden}
+.cl-progress-fill{height:100%;background:var(--emerald);border-radius:3px;transition:width .5s}
+.cl-progress-text{font-family:'IBM Plex Mono';font-size:11px;font-weight:600;color:var(--emerald)}
+
+/* AI Chat */
+.ai-chat{border-top:1px solid var(--b1);margin-top:14px;padding-top:14px}
+.ai-chat-messages{max-height:200px;overflow-y:auto;margin-bottom:10px}
+.ai-msg{padding:8px 12px;border-radius:10px;margin-bottom:6px;font-size:12px;line-height:1.6;max-width:85%}
+.ai-msg.user{background:var(--indigo);color:#fff;margin-left:auto;border-bottom-right-radius:3px}
+.ai-msg.bot{background:var(--s2);color:var(--tx2);border-bottom-left-radius:3px}
+.ai-chat-input{display:flex;gap:6px}
+.ai-chat-input input{flex:1;padding:8px 12px;border-radius:8px;border:1.5px solid var(--b1);background:var(--s2);color:var(--tx);font-family:'Outfit';font-size:12px;outline:none}
+.ai-chat-input input:focus{border-color:var(--blue)}
+.ai-chat-input button{padding:8px 14px;border-radius:8px;border:none;background:var(--g1);color:#fff;font-family:'Outfit';font-size:12px;font-weight:600;cursor:pointer}
+.ai-chat-input button:disabled{opacity:.4;cursor:not-allowed}
+.ai-chat-suggest{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px}
+.ai-chat-suggest button{padding:4px 10px;border-radius:6px;border:1px solid var(--b1);background:transparent;color:var(--tx3);font-family:'Outfit';font-size:10.5px;cursor:pointer;transition:all .2s}
+.ai-chat-suggest button:hover{border-color:var(--blue);color:var(--blue)}
+
+/* SWOT Actions */
+.swot-action{display:flex;align-items:flex-start;gap:8px;padding:6px 10px;background:var(--s3);border-radius:7px;margin-top:4px;font-size:11px;color:var(--tx2);line-height:1.5;border-left:2px solid var(--amber)}
+.swot-action .sa-icon{flex-shrink:0;font-size:12px;margin-top:1px}
+
+</style>
+</head>
+<body>
+<div class="bg-w"><div class="orb a"></div><div class="orb b"></div><div class="orb c"></div></div>
+<div class="bg-grid"></div>
+
+<!-- Intro Screen -->
+<div class="intro-ov" id="introScreen">
+  <div class="intro-particles" id="particles"></div>
+  <div class="intro-logo"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+  <div class="intro-title">Traction Scope</div>
+  <div class="intro-tagline" id="introTagline"></div>
+  <div class="intro-features" id="introFeats"></div>
+  <button class="intro-start" id="introBtn" onclick="dismissIntro()"></button>
+</div>
+
+<!-- Top Bar -->
+<div class="topbar">
+  <div class="theme-tog" onclick="toggleTheme()" title="Dark/Light"><div class="tog-dot">☀</div></div>
+  <div class="cur-sel"><select id="curSel" onchange="setCurrency(this.value)">
+    <option value="USD">$ USD</option><option value="EUR">€ EUR</option><option value="TRY">₺ TRY</option>
+    <option value="GBP">£ GBP</option><option value="JPY">¥ JPY</option><option value="AED">د.إ AED</option>
+    <option value="SAR">﷼ SAR</option><option value="KRW">₩ KRW</option><option value="INR">₹ INR</option>
+    <option value="CNY">¥ CNY</option><option value="BRL">R$ BRL</option><option value="RUB">₽ RUB</option>
+  </select></div>
+  <div class="lang-sel">
+    <button class="lb on" onclick="setLang('tr')">🇹🇷 TR</button>
+    <button class="lb" onclick="setLang('en')">🇬🇧 EN</button>
+  </div>
+</div>
+
+<div class="app">
+  <!-- Header -->
+  <header class="hdr" id="hdrBlock">
+    <div class="hdr-tag"><span class="dot"></span><span data-i="badge"></span></div>
+    <div class="logo-r">
+      <div class="logo-m"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+      <div class="logo-t">Traction Scope</div>
+    </div>
+    <p data-i="subtitle"></p>
+  </header>
+
+  <!-- Stepper -->
+  <div class="steps" id="stepperBlock">
+    <div><div class="st-d on" onclick="goStep(0)">1</div><div class="st-lb" data-i="s1"></div></div>
+    <div class="st-line"></div>
+    <div><div class="st-d" onclick="goStep(1)">2</div><div class="st-lb" data-i="s2"></div></div>
+    <div class="st-line"></div>
+    <div><div class="st-d" onclick="goStep(2)">3</div><div class="st-lb" data-i="s3"></div></div>
+    <div class="st-line"></div>
+    <div><div class="st-d" onclick="goStep(3)">4</div><div class="st-lb" data-i="s4"></div></div>
+  </div>
+
+  <!-- STEP 0: Business Idea -->
+  <div class="pnl on" id="p0">
+    <div class="sec-t" data-i="t1"></div><div class="sec-d" data-i="t1d"></div>
+    <div class="fg">
+      <div class="ig"><label data-i="idea"></label><input id="ideaName" data-ph="ph_idea"></div>
+      <div class="ig"><label data-i="sector"></label><select id="sector"></select></div>
+      <div class="ig fg-full"><label data-i="desc"></label><textarea id="ideaDesc" rows="3" data-ph="ph_desc"></textarea></div>
+      <div class="ig"><label data-i="diffr"></label><input id="diffr" data-ph="ph_diffr"></div>
+      <div class="ig"><label data-i="country"></label><input id="country" data-ph="ph_country"></div>
+      <div class="ig"><label data-i="city"></label><input id="city" data-ph="ph_city"></div>
+    </div>
+    <div class="nav-r"><div></div><button class="btn btn-n" onclick="goStep(1)" data-i="next"></button></div>
+  </div>
+
+  <!-- STEP 1: Resources -->
+  <div class="pnl" id="p1">
+    <div class="sec-t" data-i="t2"></div><div class="sec-d" data-i="t2d"></div>
+    <div class="fg">
+      <div class="ig"><label data-i="capital"></label><div class="cur-input"><span class="cur-pre" id="capPre">$</span><input type="number" id="capital" data-ph="ph_cap"></div></div>
+      <div class="ig"><label data-i="monthly"></label><div class="cur-input"><span class="cur-pre" id="monPre">$</span><input type="number" id="monthly" data-ph="ph_monthly"></div></div>
+      <div class="ig"><label data-i="runway"></label><div class="cur-input"><span class="cur-pre" id="runPre">$</span><input type="number" id="runway" data-ph="ph_runway"></div><div class="ht" data-i="ht_runway"></div></div>
+      <div class="ig"><label data-i="team"></label><input type="number" id="teamSize" data-ph="ph_team"></div>
+      <div class="ig"><label data-i="exp"></label><select id="experience"></select></div>
+      <div class="ig"><label data-i="techCap"></label><select id="techCap"></select></div>
+      <div class="ig"><label data-i="bizModel"></label><select id="bizModel"></select></div>
+      <div class="ig"><label data-i="timeline"></label><select id="timeline"></select></div>
+    </div>
+    <div class="nav-r"><button class="btn btn-b" onclick="goStep(0)" data-i="back"></button><button class="btn btn-n" onclick="goStep(2)" data-i="next"></button></div>
+  </div>
+
+  <!-- STEP 2: Competition -->
+  <div class="pnl" id="p2">
+    <div class="sec-t" data-i="t3"></div><div class="sec-d" data-i="t3d"></div>
+    <div class="fg">
+      <div class="ig"><label data-i="rivals"></label><div class="sl-w"><input type="range" id="rivals" min="0" max="20" value="5" oninput="qs('#rivalsV').textContent=this.value"><div class="sl-v" id="rivalsV">5</div></div></div>
+      <div class="ig"><label data-i="bigPlayer"></label><select id="bigPlayer"></select></div>
+      <div class="ig"><label data-i="entryBar"></label><div class="sl-w"><input type="range" id="entryBar" min="1" max="10" value="5" oninput="qs('#entryV').textContent=this.value"><div class="sl-v" id="entryV">5</div></div><div class="ht" data-i="ht_entry"></div></div>
+      <div class="ig"><label data-i="subThreat"></label><div class="sl-w"><input type="range" id="subThreat" min="1" max="10" value="5" oninput="qs('#subV').textContent=this.value"><div class="sl-v" id="subV">5</div></div></div>
+      <div class="ig"><label data-i="pricePressure"></label><div class="sl-w"><input type="range" id="pricePressure" min="1" max="10" value="5" oninput="qs('#priceV').textContent=this.value"><div class="sl-v" id="priceV">5</div></div></div>
+      <div class="ig"><label data-i="loyalty"></label><div class="sl-w"><input type="range" id="loyalty" min="1" max="10" value="5" oninput="qs('#loyV').textContent=this.value"><div class="sl-v" id="loyV">5</div></div></div>
+      <div class="ig"><label data-i="innov"></label><div class="sl-w"><input type="range" id="innov" min="1" max="10" value="5" oninput="qs('#innovV').textContent=this.value"><div class="sl-v" id="innovV">5</div></div><div class="ht" data-i="ht_innov"></div></div>
+      <div class="ig"><label data-i="brandStr"></label><div class="sl-w"><input type="range" id="brandStr" min="1" max="10" value="5" oninput="qs('#brandV').textContent=this.value"><div class="sl-v" id="brandV">5</div></div></div>
+    </div>
+    <!-- Competitor Entry -->
+    <div style="margin-top:16px">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <label style="font-size:12px;font-weight:700;color:var(--tx2)" data-i="rivalEntry"></label>
+        <button class="add-rival" onclick="addRival()" id="addRivalBtn">+ <span data-i="addRival"></span></button>
+      </div>
+      <div class="rival-cards" id="rivalCards"></div>
+    </div>
+    <div class="nav-r"><button class="btn btn-b" onclick="goStep(1)" data-i="back"></button><button class="btn btn-n" onclick="goStep(3)" data-i="next"></button></div>
+  </div>
+
+  <!-- STEP 3: Market -->
+  <div class="pnl" id="p3">
+    <div class="sec-t" data-i="t4"></div><div class="sec-d" data-i="t4d"></div>
+    <div class="fg">
+      <div class="ig"><label data-i="mktSize"></label><select id="mktSize"></select></div>
+      <div class="ig"><label data-i="mktGrowth"></label><select id="mktGrowth"></select></div>
+      <div class="ig"><label data-i="custPower"></label><div class="sl-w"><input type="range" id="custPower" min="1" max="10" value="5" oninput="qs('#cpV').textContent=this.value"><div class="sl-v" id="cpV">5</div></div></div>
+      <div class="ig"><label data-i="suppPower"></label><div class="sl-w"><input type="range" id="suppPower" min="1" max="10" value="5" oninput="qs('#spV').textContent=this.value"><div class="sl-v" id="spV">5</div></div></div>
+      <div class="ig"><label data-i="regRisk"></label><div class="sl-w"><input type="range" id="regRisk" min="1" max="10" value="5" oninput="qs('#rrV').textContent=this.value"><div class="sl-v" id="rrV">5</div></div></div>
+      <div class="ig"><label data-i="techDisrupt"></label><div class="sl-w"><input type="range" id="techDisrupt" min="1" max="10" value="5" oninput="qs('#tdV').textContent=this.value"><div class="sl-v" id="tdV">5</div></div></div>
+      <div class="ig"><label data-i="seasonality"></label><select id="seasonality"></select></div>
+      <div class="ig"><label data-i="onlineShare"></label><div class="sl-w"><input type="range" id="onlineShare" min="0" max="100" value="50" oninput="qs('#osV').textContent=this.value+'%'"><div class="sl-v" id="osV">50%</div></div><div class="ht" data-i="ht_online"></div></div>
+    </div>
+    <div class="nav-r"><button class="btn btn-b" onclick="goStep(2)" data-i="back"></button><button class="btn btn-a" onclick="runAnalysis()" data-i="analyzeBtn"></button></div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div class="ld-ov" id="loading">
+    <div class="ld-sp"></div>
+    <div class="ld-tx" data-i="ld"></div>
+    <div class="ld-st" id="ldSteps"></div>
+  </div>
+
+  <!-- Results Container -->
+  <div class="res" id="results"></div>
+</div>
+
+<!-- History Button -->
+<button class="hist-btn" id="histBtn" onclick="openHistory()" title="History">📋</button>
+
+<!-- History Overlay -->
+<div class="hist-overlay" id="histOverlay" onclick="closeHistory()"></div>
+<div class="hist-panel" id="histPanel">
+  <div class="hist-header">
+    <h3 data-i="histTitle"></h3>
+    <button class="hist-close" onclick="closeHistory()">✕</button>
+  </div>
+  <div id="histList"></div>
+</div>
+
+<!-- Share Modal -->
+<div class="share-modal" id="shareModal">
+  <div class="share-box">
+    <h3 data-i="shareTitle"></h3>
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:8px" data-i="shareSub"></p>
+    <div class="share-links">
+      <a class="share-link" id="shareLinkedIn" target="_blank" title="LinkedIn">💼</a>
+      <a class="share-link" id="shareTwitter" target="_blank" title="Twitter / X">𝕏</a>
+      <a class="share-link" onclick="shareWhatsApp()" title="WhatsApp">💬</a>
+      <a class="share-link" onclick="copyShareText()" title="Copy" id="copyBtn">📋</a>
+    </div>
+    <div class="share-url">
+      <input id="shareText" readonly>
+      <button onclick="copyShareText()" data-i="shareCopy"></button>
+    </div>
+    <button class="share-close" onclick="closeShareModal()" data-i="shareClose"></button>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════════════
+// CURRENCY SYSTEM
+// ════════════════════════════════════════════════
+const CURRENCIES={
+  USD:{s:'$',r:1},EUR:{s:'€',r:0.92},TRY:{s:'₺',r:34.2},GBP:{s:'£',r:0.79},
+  JPY:{s:'¥',r:154},AED:{s:'د.إ',r:3.67},SAR:{s:'﷼',r:3.75},KRW:{s:'₩',r:1380},
+  INR:{s:'₹',r:83.5},CNY:{s:'¥',r:7.25},BRL:{s:'R$',r:5.05},RUB:{s:'₽',r:92}
+};
+let CUR='USD';
+function setCurrency(c){CUR=c;const s=CURRENCIES[c].s;
+  document.querySelectorAll('.cur-pre').forEach(el=>el.textContent=s);
+  if(document.getElementById('results').classList.contains('show'))renderResults();}
+function fmtCur(usd){const c=CURRENCIES[CUR];return c.s+Math.round(usd*c.r).toLocaleString();}
+
+// ════════════════════════════════════════════════
+// i18n SYSTEM
+// ════════════════════════════════════════════════
+let LANG='tr';
+const qs=s=>document.querySelector(s);
+const qa=s=>document.querySelectorAll(s);
+
+const I={
+tr:{
+badge:"YAPAY ZEKA REKABET İSTİHBARATI",
+subtitle:"İş fikrinizi girin, yapay zeka Porter'ın 5 Güç modeli, PESTEL analizi, Monte Carlo simülasyonu, finansal projeksiyonlar ve kapsamlı bir stratejik değerlendirme raporu oluştursun.",
+s1:"İş Fikri",s2:"Kaynaklar",s3:"Rekabet",s4:"Pazar",
+t1:"İş Fikrinizi Tanımlayın",t1d:"Kurmayı planladığınız işletmenin tüm detaylarını girin. Ne kadar detay verirseniz, AI analizi o kadar isabetli olur.",
+idea:"İş Fikri / Proje Adı",ph_idea:"ör. Organik Kahve Dükkanı",
+sector:"Sektör",sel:"Seçiniz...",
+sectors:[["tech","Teknoloji / Yazılım"],["food","Gıda & İçecek"],["retail","Perakende / E-Ticaret"],["health","Sağlık / Medikal"],["edu","Eğitim / EdTech"],["finance","Finans / Sigorta / FinTech"],["mfg","Üretim / Sanayi"],["agri","Tarım / AgriTech"],["tourism","Turizm / Otelcilik"],["logistics","Lojistik / Taşımacılık"],["energy","Enerji / Temiz Enerji"],["realestate","Gayrimenkul / PropTech"],["media","Medya / İçerik / Yayıncılık"],["consulting","Danışmanlık / Ajans"],["saas","SaaS / Abonelik Modeli"],["marketplace","Pazar Yeri / Platform"],["other","Diğer"]],
+desc:"İş Fikri Açıklaması",ph_desc:"Ne yapacaksınız? Müşterilerinize hangi problemi çözeceksiniz? Hedef kitleniz kim? Ne kadar detay verirseniz AI o kadar iyi analiz yapar.",
+diffr:"Rekabet Avantajınız / Benzersiz Değer Öneriniz",ph_diffr:"ör. Doğrudan çiftçiden tedarik, AI kişiselleştirme, patentli teknoloji",
+country:"Hedef Pazar Ülkesi",ph_country:"ör. Türkiye",city:"Hedef Şehir / Bölge",ph_city:"ör. İstanbul",
+t2:"Sermaye, Ekip & Kaynaklarınız",t2d:"Elinizdeki tüm mali ve insani kaynakları detaylı belirtin.",
+capital:"Başlangıç Sermayesi",ph_cap:"ör. 50000",
+monthly:"Aylık Operasyon Bütçesi",ph_monthly:"ör. 5000",
+runway:"Mevcut Nakit Rezervi",ph_runway:"ör. 100000",ht_runway:"Toplam kullanılabilir nakit (kredi dahil)",
+team:"Ekip Büyüklüğü (kişi)",ph_team:"ör. 4",
+exp:"Sektör Deneyimi",exps:[["0","Hiç yok (ilk girişim)"],["1","Başlangıç (1-2 yıl)"],["2","Orta (3-5 yıl)"],["3","Uzman (5+ yıl, sektör çıkışlı)"]],
+techCap:"Teknoloji Altyapısı Durumu",techs:[["0","Yok — sıfırdan kurulacak"],["1","Temel — basit araçlar var"],["2","Orta — bazı sistemler hazır"],["3","Güçlü — tam altyapı ve ekip mevcut"]],
+bizModel:"İş Modeli",models:[["b2c","B2C (Tüketiciye Doğrudan)"],["b2b","B2B (İşletmeye Satış)"],["b2b2c","B2B2C (Hibrit)"],["marketplace","Pazar Yeri / Platform"],["saas","SaaS / Abonelik"],["franchise","Franchise / Bayilik"],["other","Diğer"]],
+timeline:"Planlanan Lansman Süresi",timelines:[["3","3 ay içinde"],["6","6 ay içinde"],["12","12 ay içinde"],["18","18 ay içinde"],["24","24+ ay"]],
+t3:"Rekabet Ortamı Analizi",t3d:"Hedef pazardaki rekabet yapısını, engelleri ve rakip davranışlarını değerlendirin.",
+rivals:"Tahmini Doğrudan Rakip Sayısı",
+bigPlayer:"Pazardaki Büyük Oyuncu Yapısı",bps:[["0","Yok — pazar yeni veya boş"],["1","1-2 büyük oyuncu var"],["2","3-5 büyük oyuncu var"],["3","Pazar birkaç dev tarafından domine ediliyor"]],
+entryBar:"Pazara Giriş Engeli Seviyesi",ht_entry:"1 = Herkes girebilir, 10 = Çok yüksek bariyer (lisans, patent, sermaye vb.)",
+subThreat:"İkame Ürün/Hizmet Tehdidi",
+pricePressure:"Fiyat Baskısı & Savaşı Düzeyi",
+loyalty:"Mevcut Müşteri Sadakati (rakiplere karşı)",
+innov:"Sektördeki İnovasyon Hızı",ht_innov:"1 = Çok yavaş/geleneksel, 10 = Sürekli inovasyon",
+brandStr:"Sizin Marka Gücünüz (mevcut bilinirlik)",
+t4:"Pazar Dinamikleri & Makro Çevre",t4d:"Hedef pazarın büyüklüğünü, trendlerini ve makro çevre faktörlerini analiz edin.",
+mktSize:"Toplam Adreslenebilir Pazar (TAM)",mkts:[["1","Mikro (< $1M)"],["2","Küçük ($1M-$10M)"],["3","Orta ($10M-$100M)"],["4","Büyük ($100M-$1B)"],["5","Devasa (> $1B)"]],
+mktGrowth:"Pazar Büyüme Trendi",mgs:[["0","Küçülüyor (negatif)"],["1","Durgun (%0-1)"],["2","Yavaş büyüme (%1-5)"],["3","Hızlı büyüme (%5-15)"],["4","Patlama (%15+)"]],
+custPower:"Müşteri (Alıcı) Pazarlık Gücü",
+suppPower:"Tedarikçi Pazarlık Gücü",
+regRisk:"Yasal / Düzenleyici Risk Seviyesi",
+techDisrupt:"Teknolojik Değişim & Bozulma Hızı",
+seasonality:"Mevsimsellik Etkisi",seasons:[["0","Yok — yıl boyu stabil"],["1","Düşük — hafif dalgalanma"],["2","Orta — belirgin sezonlar var"],["3","Yüksek — çok mevsimsel"]],
+onlineShare:"Online Satış / Dijital Kanal Payı (%)",ht_online:"İşinizin ne kadarı dijital kanallardan olacak?",
+next:"Devam →",back:"← Geri",analyzeBtn:"⚡ Kapsamlı AI Analizi Başlat",
+ld:"Yapay zeka kapsamlı rekabet analizi yapıyor...",
+ls:["Sektör verileri ve pazar yapısı taranıyor","Porter'ın 5 Güç modeli hesaplanıyor","PESTEL makro çevre analizi yapılıyor","Monte Carlo hayatta kalma simülasyonu çalıştırılıyor","Finansal projeksiyon modeli oluşturuluyor","Rekabet konumlandırma haritası çiziliyor","AI stratejik değerlendirme raporu hazırlanıyor"],
+rpt:"Rekabet İstihbarat Raporu",winProb:"Rekabette Kazanma Olasılığı",survProb:"5 Yıllık Hayatta Kalma",
+monteCarlo:"Monte Carlo Simülasyonu",monteDesc:"1.000 farklı senaryo simüle edildi",
+porterTitle:"Porter'ın 5 Güç Analizi",pLabels:["Rekabet\nYoğunluğu","Giriş\nEngelleri","İkame\nTehdidi","Alıcı\nGücü","Tedarikçi\nGücü"],
+pestelTitle:"PESTEL Makro Çevre Analizi",pestelLabels:["Politik","Ekonomik","Sosyal","Teknolojik","Çevresel","Yasal"],
+dimLabels:["Pazar Çekiciliği","Rekabet Avantajı","Kaynak Yeterliliği","Zamanlama & Hazırlık","Hayatta Kalma Skoru"],dimIcons:["📊","⚔️","💎","⏱️","🛡️"],
+projTitle:"3 Yıllık Finansal Projeksiyon (Tahmini)",projLegend:["Gelir","Gider","Kâr/Zarar"],
+compMapTitle:"Rekabet Konumlandırma Haritası",compMapX:"Pazar Payı →",compMapY:"↑ Büyüme Potansiyeli",compMapYou:"SİZ",compMapRival:"Rakip",
+heatTitle:"Risk Isı Haritası",heatCats:["Finansal","Operasyonel","Pazar","Rekabet","Düzenleyici","Teknoloji"],heatLevels:["Düşük","Orta","Yüksek","Kritik"],
+swotTitle:"SWOT Analizi",swS:"Güçlü Yönler",swW:"Zayıf Yönler",swO:"Fırsatlar",swT:"Tehditler",
+aiTitle:"Yapay Zeka Stratejik Değerlendirmesi",aiSub:"Tüm verileriniz Yapay Zeka'a gönderildi ve aşağıdaki kapsamlı analiz raporu oluşturuldu.",
+aiLoading:"Yapay Zeka kapsamlı stratejik değerlendirme raporu oluşturuyor... Bu birkaç saniye sürebilir.",
+aiError:"AI analizi şu an kullanılamıyor. Lütfen daha sonra tekrar deneyin.",
+recsTitle:"Stratejik Aksiyon Planı",
+priCritical:"Kritik",priHigh:"Yüksek",priMedium:"Orta",priStrategic:"Stratejik",
+btnExport:"Raporu Dışa Aktar",btnReset:"Yeni Analiz Başlat",
+footer1:"Geliştiren: <strong>Alim Çeler</strong> • Traction Scope Ultimate — Yapay Zeka Destekli Rekabet İstihbarat Platformu",
+footer2:"Porter 5 Güç • PESTEL • Monte Carlo • Finansal Projeksiyon • Risk Haritası • AI Stratejik Değerlendirme",
+// New features
+rivalEntry:"Rakip Bilgileri (opsiyonel — daha iyi analiz için)",addRival:"Rakip Ekle",
+rvName:"Rakip Adı",rvStrength:"Güçlü Yönü",rvWeakness:"Zayıf Yönü",rvShare:"Pazar Payı %",
+scenTitle:"3'lü Senaryo Simülasyonu (12 Aylık)",scenOpt:"İyimser",scenReal:"Gerçekçi",scenPes:"Kötümser",
+scenRev:"Tahmini Gelir",scenProfit:"Net Kâr/Zarar",scenGrowth:"Büyüme",
+beTitle:"Break-Even (Başabaş) Analizi",beMonth:"Başabaş Noktası",beMonths:"ay",beTotalInv:"Toplam Yatırım",beMonthlyBE:"Aylık Başabaş Geliri",beROI:"Tahmini ROI (12 ay)",
+scTitle:"Girişim Skor Kartı",
+scLabels:["Pazar Fırsatı","Rekabet Avantajı","Ekip Gücü","Finansal Hazırlık","Teknoloji Altyapısı","Müşteri Erişimi","Ölçeklenebilirlik","İnovasyon","Zamanlama","Risk Yönetimi"],
+cmpTitle:"Rakip Karşılaştırma Tablosu",cmpYou:"SİZ",cmpStrength:"Güçlü Yön",cmpWeakness:"Zayıf Yön",cmpShare:"Pazar Payı",cmpThreat:"Tehdit Seviyesi",
+pdfBtn:"PDF Olarak İndir",
+// Intro
+introTag:"Yapay zeka destekli kapsamlı rekabet analiz platformu. İş fikrinizi girin, pazara giriş stratejinizi oluşturun.",
+introFeats:["Porter 5 Güç","PESTEL","Monte Carlo","AI Strateji","Break-Even","Senaryo","PDF Rapor","Canlı Veri"],
+introBtn:"Analize Başla →",
+// BMC
+bmcTitle:"Business Model Canvas",
+bmcLabels:["Temel Ortaklar","Temel Faaliyetler","Değer Önerisi","Müşteri İlişkileri","Müşteri Segmentleri","Temel Kaynaklar","Kanallar","Maliyet Yapısı","Gelir Akışları"],
+// Pitch
+pitchTitle:"Yatırımcı Pitch Özeti",pitchSub:"Tek sayfalık yatırımcı sunumu",
+pitchLabels:["Problem","Çözüm","Hedef Pazar","İş Modeli","Rekabet Avantajı","Ekip","Finansal Özet","Talep"],
+pitchAsk:"Yatırım Talebi",pitchUse:"Kullanım Alanları",
+// Live Data
+liveTitle:"Canlı Sektör İstihbaratı",liveSub:"AI web araması ile güncel pazar verileri",
+liveLoading:"Sektör verileri aranıyor...",
+liveLabels:["Pazar Büyüklüğü & Trend","Son Haberler","Önemli Oyuncular","Sektör Tahminleri"],
+// History, Share, Theme, Exec Dashboard
+histTitle:"Analiz Geçmişi",histEmpty:"Henüz kayıtlı analiz yok",histDelete:"Sil",histLoad:"Yükle",
+shareTitle:"Sonuçları Paylaş",shareSub:"Analiz özetinizi paylaşın",shareCopy:"Kopyala",shareClose:"Kapat",shareCopied:"Kopyalandı!",
+execTitle:"Yönetici Özet Paneli",
+execLabels:["Kazanma","Hayatta Kalma","Pazar","Rekabet","Kaynak","Zamanlama","Porter Ort.","Break-Even"],
+// Benchmark
+benchTitle:"Sektör Benchmark Karşılaştırması",benchSub:"Skorlarınız sektör ortalaması ile kıyaslanıyor",benchYou:"Siz",benchAvg:"Sektör Ort.",
+benchDims:["Kâr Marjı","Büyüme Hızı","Dijital Olgunluk","Müşteri Tutma","İnovasyon"],
+// Checklist
+clTitle:"90 Günlük Aksiyon Planı",clSub:"İlk 3 ayda yapılması gerekenleri takip edin",clProgress:"Tamamlanan",
+clWeeks:["Hafta 1-2: Temel Hazırlık","Hafta 3-4: MVP & Test","Hafta 5-8: Lansman","Hafta 9-12: Büyüme"],
+clItems:[
+  ["İş planını detaylandır","Yasal yapıyı kur (şirket, vergi)","Marka kimliği oluştur (logo, renk, font)","Hedef müşteri persona'sını tanımla","Rakip analizi raporunu tamamla"],
+  ["MVP / prototip geliştir","İlk 5 potansiyel müşteriyle görüş","Geri bildirimlere göre ürünü güncelle","Fiyatlandırma stratejisini belirle","Web sitesi / landing page yayınla"],
+  ["Sosyal medya hesaplarını aç","İçerik pazarlama takvimi oluştur","Soft launch yap — ilk 10 müşteri","Müşteri geri bildirim sistemi kur","Aylık KPI dashboard'u oluştur"],
+  ["Dijital reklam kampanyası başlat","Stratejik ortaklık görüşmeleri yap","İlk ayın finansal analizini yap","Müşteri edinme maliyetini ölç","Büyüme stratejisini gözden geçir"]
+],
+// AI Chat
+aiChatTitle:"Yapay Zeka Soru-Cevap",aiChatSub:"Analiz sonuçlarınız hakkında soru sorun",aiChatSend:"Sor",aiChatPh:"ör. Neden rekabet skorum düşük?",
+aiChatSuggestions:["Neden bu skor çıktı?","En büyük riskim ne?","İlk ne yapmalıyım?","Rakiplerden nasıl ayrışırım?","Sermayem yeterli mi?"],
+// SWOT Actions
+swotActTitle:"Aksiyon Eşleştirme",
+verdict:{90:"Olağanüstü Potansiyel",75:"Çok Yüksek Potansiyel",60:"Yüksek Potansiyel",48:"İyi Potansiyel",35:"Orta Düzey",22:"Riskli",0:"Çok Riskli"},
+},
+en:{
+badge:"AI COMPETITION INTELLIGENCE",
+subtitle:"Enter your business idea and let AI generate a comprehensive competition report with Porter's 5 Forces, PESTEL analysis, Monte Carlo simulation, financial projections, and a strategic assessment.",
+s1:"Idea",s2:"Resources",s3:"Competition",s4:"Market",
+t1:"Define Your Business Idea",t1d:"Enter all details of the business you plan to launch. The more detail you provide, the more accurate the AI analysis will be.",
+idea:"Business Idea / Project Name",ph_idea:"e.g. Organic Coffee Shop",
+sector:"Industry",sel:"Select...",
+sectors:[["tech","Technology / Software"],["food","Food & Beverage"],["retail","Retail / E-Commerce"],["health","Healthcare / Medical"],["edu","Education / EdTech"],["finance","Finance / Insurance / FinTech"],["mfg","Manufacturing / Industrial"],["agri","Agriculture / AgriTech"],["tourism","Tourism / Hospitality"],["logistics","Logistics / Transport"],["energy","Energy / Clean Energy"],["realestate","Real Estate / PropTech"],["media","Media / Content / Publishing"],["consulting","Consulting / Agency"],["saas","SaaS / Subscription Model"],["marketplace","Marketplace / Platform"],["other","Other"]],
+desc:"Business Description",ph_desc:"What will you do? What problem are you solving? Who is your target audience? More detail = better AI analysis.",
+diffr:"Your Competitive Advantage / Unique Value Proposition",ph_diffr:"e.g. Direct farm sourcing, AI personalization, patented technology",
+country:"Target Market Country",ph_country:"e.g. United States",city:"Target City / Region",ph_city:"e.g. New York",
+t2:"Capital, Team & Resources",t2d:"Specify all your financial and human resources in detail.",
+capital:"Starting Capital",ph_cap:"e.g. 50000",
+monthly:"Monthly Operating Budget",ph_monthly:"e.g. 5000",
+runway:"Available Cash Reserve",ph_runway:"e.g. 100000",ht_runway:"Total available cash (including credit lines)",
+team:"Team Size",ph_team:"e.g. 4",
+exp:"Industry Experience",exps:[["0","None (first venture)"],["1","Beginner (1-2 years)"],["2","Intermediate (3-5 years)"],["3","Expert (5+ years, industry veteran)"]],
+techCap:"Technology Infrastructure Status",techs:[["0","None — building from scratch"],["1","Basic — simple tools available"],["2","Moderate — some systems ready"],["3","Strong — full infrastructure & team"]],
+bizModel:"Business Model",models:[["b2c","B2C (Direct to Consumer)"],["b2b","B2B (Business Sales)"],["b2b2c","B2B2C (Hybrid)"],["marketplace","Marketplace / Platform"],["saas","SaaS / Subscription"],["franchise","Franchise"],["other","Other"]],
+timeline:"Planned Launch Timeline",timelines:[["3","Within 3 months"],["6","Within 6 months"],["12","Within 12 months"],["18","Within 18 months"],["24","24+ months"]],
+t3:"Competitive Landscape Analysis",t3d:"Evaluate the competition structure, barriers, and competitor behavior in your target market.",
+rivals:"Estimated Number of Direct Competitors",
+bigPlayer:"Major Player Structure in Market",bps:[["0","None — new or empty market"],["1","1-2 major players"],["2","3-5 major players"],["3","Market dominated by a few giants"]],
+entryBar:"Market Entry Barrier Level",ht_entry:"1 = Anyone can enter, 10 = Very high barrier (license, patent, capital, etc.)",
+subThreat:"Substitute Product/Service Threat",
+pricePressure:"Price Pressure & War Level",
+loyalty:"Existing Customer Loyalty (to competitors)",
+innov:"Innovation Speed in Sector",ht_innov:"1 = Very slow/traditional, 10 = Constant innovation",
+brandStr:"Your Brand Strength (existing awareness)",
+t4:"Market Dynamics & Macro Environment",t4d:"Analyze your target market's size, trends, and macro environment factors.",
+mktSize:"Total Addressable Market (TAM)",mkts:[["1","Micro (< $1M)"],["2","Small ($1M-$10M)"],["3","Medium ($10M-$100M)"],["4","Large ($100M-$1B)"],["5","Massive (> $1B)"]],
+mktGrowth:"Market Growth Trend",mgs:[["0","Shrinking (negative)"],["1","Stagnant (0-1%)"],["2","Slow growth (1-5%)"],["3","Fast growth (5-15%)"],["4","Booming (15%+)"]],
+custPower:"Buyer Bargaining Power",
+suppPower:"Supplier Bargaining Power",
+regRisk:"Regulatory Risk Level",
+techDisrupt:"Technological Change & Disruption Speed",
+seasonality:"Seasonality Impact",seasons:[["0","None — stable year-round"],["1","Low — slight fluctuation"],["2","Medium — distinct seasons"],["3","High — very seasonal"]],
+onlineShare:"Online Sales / Digital Channel Share (%)",ht_online:"What percentage of your business will be through digital channels?",
+next:"Continue →",back:"← Back",analyzeBtn:"⚡ Run Comprehensive AI Analysis",
+ld:"AI is performing comprehensive competition analysis...",
+ls:["Scanning industry data and market structure","Calculating Porter's 5 Forces model","Running PESTEL macro environment analysis","Executing Monte Carlo survival simulation","Building financial projection model","Drawing competitive positioning map","Preparing AI strategic assessment report"],
+rpt:"Competition Intelligence Report",winProb:"Competition Win Probability",survProb:"5-Year Survival Rate",
+monteCarlo:"Monte Carlo Simulation",monteDesc:"1,000 different scenarios simulated",
+porterTitle:"Porter's 5 Forces Analysis",pLabels:["Competitive\nRivalry","Entry\nBarriers","Substitute\nThreat","Buyer\nPower","Supplier\nPower"],
+pestelTitle:"PESTEL Macro Environment Analysis",pestelLabels:["Political","Economic","Social","Technological","Environmental","Legal"],
+dimLabels:["Market Attractiveness","Competitive Advantage","Resource Adequacy","Timing & Readiness","Survival Score"],dimIcons:["📊","⚔️","💎","⏱️","🛡️"],
+projTitle:"3-Year Financial Projection (Estimated)",projLegend:["Revenue","Expenses","Profit/Loss"],
+compMapTitle:"Competitive Positioning Map",compMapX:"Market Share →",compMapY:"↑ Growth Potential",compMapYou:"YOU",compMapRival:"Rival",
+heatTitle:"Risk Heat Map",heatCats:["Financial","Operational","Market","Competition","Regulatory","Technology"],heatLevels:["Low","Medium","High","Critical"],
+swotTitle:"SWOT Analysis",swS:"Strengths",swW:"Weaknesses",swO:"Opportunities",swT:"Threats",
+aiTitle:"Yapay Zeka Strategic Assessment",aiSub:"All your data was sent to Yapay Zeka and the following comprehensive analysis report was generated.",
+aiLoading:"Yapay Zeka is generating a comprehensive strategic assessment... This may take a few seconds.",
+aiError:"AI analysis is temporarily unavailable. Please try again later.",
+recsTitle:"Strategic Action Plan",
+priCritical:"Critical",priHigh:"High",priMedium:"Medium",priStrategic:"Strategic",
+btnExport:"Export Report",btnReset:"Start New Analysis",
+footer1:"Built by <strong>Alim Çeler</strong> • Traction Scope Ultimate — AI-Powered Competition Intelligence Platform",
+footer2:"Porter's 5 Forces • PESTEL • Monte Carlo • Financial Projections • Risk Map • AI Strategic Assessment",
+rivalEntry:"Competitor Details (optional — for better analysis)",addRival:"Add Competitor",
+rvName:"Competitor Name",rvStrength:"Key Strength",rvWeakness:"Key Weakness",rvShare:"Market Share %",
+scenTitle:"3-Way Scenario Simulation (12 Months)",scenOpt:"Optimistic",scenReal:"Realistic",scenPes:"Pessimistic",
+scenRev:"Estimated Revenue",scenProfit:"Net Profit/Loss",scenGrowth:"Growth",
+beTitle:"Break-Even Analysis",beMonth:"Break-Even Point",beMonths:"months",beTotalInv:"Total Investment",beMonthlyBE:"Monthly Break-Even Revenue",beROI:"Estimated ROI (12 mo)",
+scTitle:"Startup Scorecard",
+scLabels:["Market Opportunity","Competitive Advantage","Team Strength","Financial Readiness","Tech Infrastructure","Customer Access","Scalability","Innovation","Timing","Risk Management"],
+cmpTitle:"Competitor Comparison Table",cmpYou:"YOU",cmpStrength:"Key Strength",cmpWeakness:"Key Weakness",cmpShare:"Market Share",cmpThreat:"Threat Level",
+pdfBtn:"Download as PDF",
+introTag:"AI-powered comprehensive competition analysis platform. Enter your business idea, build your market entry strategy.",
+introFeats:["Porter's 5 Forces","PESTEL","Monte Carlo","AI Strategy","Break-Even","Scenarios","PDF Report","Live Data"],
+introBtn:"Start Analysis →",
+bmcTitle:"Business Model Canvas",
+bmcLabels:["Key Partners","Key Activities","Value Proposition","Customer Relationships","Customer Segments","Key Resources","Channels","Cost Structure","Revenue Streams"],
+pitchTitle:"Investor Pitch Summary",pitchSub:"One-page investor-ready summary",
+pitchLabels:["Problem","Solution","Target Market","Business Model","Competitive Advantage","Team","Financial Summary","Ask"],
+pitchAsk:"Investment Ask",pitchUse:"Use of Funds",
+liveTitle:"Live Industry Intelligence",liveSub:"Real-time market data via AI web search",
+liveLoading:"Searching industry data...",
+liveLabels:["Market Size & Trends","Latest News","Key Players","Industry Forecasts"],
+histTitle:"Analysis History",histEmpty:"No saved analyses yet",histDelete:"Delete",histLoad:"Load",
+shareTitle:"Share Results",shareSub:"Share your analysis summary",shareCopy:"Copy",shareClose:"Close",shareCopied:"Copied!",
+execTitle:"Executive Summary Dashboard",
+execLabels:["Win Rate","Survival","Market","Competition","Resources","Timing","Porter Avg","Break-Even"],
+benchTitle:"Industry Benchmark Comparison",benchSub:"Your scores compared to industry averages",benchYou:"You",benchAvg:"Industry Avg",
+benchDims:["Profit Margin","Growth Rate","Digital Maturity","Customer Retention","Innovation"],
+clTitle:"90-Day Action Plan",clSub:"Track what needs to be done in the first 3 months",clProgress:"Completed",
+clWeeks:["Week 1-2: Foundation","Week 3-4: MVP & Test","Week 5-8: Launch","Week 9-12: Growth"],
+clItems:[
+  ["Finalize business plan","Set up legal structure (company, tax)","Create brand identity (logo, colors, fonts)","Define target customer personas","Complete competitor analysis report"],
+  ["Build MVP / prototype","Interview first 5 potential customers","Update product based on feedback","Define pricing strategy","Launch website / landing page"],
+  ["Set up social media accounts","Create content marketing calendar","Soft launch — first 10 customers","Set up customer feedback system","Create monthly KPI dashboard"],
+  ["Launch digital ad campaigns","Initiate strategic partnership talks","Analyze first month's financials","Measure customer acquisition cost","Review and adjust growth strategy"]
+],
+aiChatTitle:"AI Q&A",aiChatSub:"Ask questions about your analysis results",aiChatSend:"Ask",aiChatPh:"e.g. Why is my competition score low?",
+aiChatSuggestions:["Why did I get this score?","What's my biggest risk?","What should I do first?","How do I differentiate?","Is my capital enough?"],
+swotActTitle:"Action Matching",
+verdict:{90:"Extraordinary Potential",75:"Very High Potential",60:"High Potential",48:"Good Potential",35:"Moderate",22:"Risky",0:"Very Risky"},
+}};
+const t=k=>I[LANG][k]||k;
+const tv=score=>{const v=I[LANG].verdict;for(const th of[90,75,60,48,35,22,0])if(score>=th)return v[th];return v[0];};
+
+function setLang(l){
+  LANG=l;
+  qa('.lb').forEach(b=>b.classList.toggle('on',b.textContent.includes(l.toUpperCase())));
+  applyI18n();
+  if(qs('#results').classList.contains('show'))renderResults();
+}
+
+function applyI18n(){
+  const tx=I[LANG];
+  qa('[data-i]').forEach(el=>{const k=el.getAttribute('data-i');if(tx[k]!==undefined){el.tagName==='OPTION'?el.textContent=tx[k]:el.innerHTML=tx[k];}});
+  qa('[data-ph]').forEach(el=>{const k=el.getAttribute('data-ph');if(tx[k])el.placeholder=tx[k];});
+  // Rebuild selects
+  buildSelect('sector',[['',tx.sel],...tx.sectors]);
+  buildSelect('experience',[['',tx.sel],...tx.exps]);
+  buildSelect('techCap',[['',tx.sel],...tx.techs]);
+  buildSelect('bizModel',[['',tx.sel],...tx.models]);
+  buildSelect('timeline',[['',tx.sel],...tx.timelines]);
+  buildSelect('bigPlayer',[['',tx.sel],...tx.bps]);
+  buildSelect('mktSize',[['',tx.sel],...tx.mkts]);
+  buildSelect('mktGrowth',[['',tx.sel],...tx.mgs]);
+  buildSelect('seasonality',[['',tx.sel],...tx.seasons]);
+}
+
+function buildSelect(id,opts){
+  const el=qs('#'+id);if(!el)return;
+  const cur=el.value;
+  el.innerHTML=opts.map(([v,l])=>`<option value="${v}">${l}</option>`).join('');
+  el.value=cur;
+}
+
+// ════════════════════════════════════════════════
+// STEPPER
+// ════════════════════════════════════════════════
+let curStep=0;
+function goStep(n){
+  curStep=n;
+  qa('.pnl').forEach((p,i)=>p.classList.toggle('on',i===n));
+  const dots=qa('.st-d'),lines=qa('.st-line');
+  dots.forEach((d,i)=>{d.classList.remove('on','done');if(i<n)d.classList.add('done');if(i===n)d.classList.add('on');});
+  lines.forEach((l,i)=>l.classList.toggle('done',i<n));
+}
+
+// ════════════════════════════════════════════════
+// RIVAL MANAGEMENT
+// ════════════════════════════════════════════════
+let rivals_data=[];
+function addRival(){
+  if(rivals_data.length>=5)return;
+  const tx=I[LANG];
+  rivals_data.push({name:'',strength:'',weakness:'',share:0});
+  renderRivals();
+}
+function removeRival(i){rivals_data.splice(i,1);renderRivals();}
+function updateRival(i,field,val){rivals_data[i][field]=val;}
+function renderRivals(){
+  const tx=I[LANG];const el=qs('#rivalCards');
+  el.innerHTML=rivals_data.map((r,i)=>`<div class="rival-card">
+    <div><label style="font-size:10px;color:var(--tx3)">${tx.rvName}</label><input value="${r.name}" onchange="updateRival(${i},'name',this.value)" placeholder="ör. Starbucks"></div>
+    <div><label style="font-size:10px;color:var(--tx3)">${tx.rvStrength}</label><input value="${r.strength}" onchange="updateRival(${i},'strength',this.value)" placeholder="ör. Marka gücü"></div>
+    <div><label style="font-size:10px;color:var(--tx3)">${tx.rvWeakness}</label><input value="${r.weakness}" onchange="updateRival(${i},'weakness',this.value)" placeholder="ör. Yüksek fiyat"></div>
+    <div><label style="font-size:10px;color:var(--tx3)">${tx.rvShare} (%)</label><input type="number" value="${r.share||''}" min="0" max="100" onchange="updateRival(${i},'share',+this.value)" placeholder="ör. 25"></div>
+    <button class="rv-del" onclick="removeRival(${i})">✕</button>
+  </div>`).join('');
+  qs('#addRivalBtn').style.display=rivals_data.length>=5?'none':'inline-flex';
+}
+
+// ════════════════════════════════════════════════
+// SCENARIO & BREAK-EVEN ENGINES
+// ════════════════════════════════════════════════
+function computeScenarios(cap,mon,mg){
+  const base=mg>=3?0.12:mg>=2?0.06:mg>=1?0.02:-0.02;
+  const scenarios=[
+    {rate:base*1.6+0.03,label:'opt'},  // Optimistic
+    {rate:base,label:'real'},            // Realistic
+    {rate:base*0.4-0.02,label:'pes'}    // Pessimistic
+  ];
+  return scenarios.map(sc=>{
+    let totalRev=0,totalExp=0;
+    for(let q=1;q<=12;q++){
+      const rev=Math.max(0,(mon*0.7)*(1+sc.rate)**q+cap*0.015*q);
+      const ex=mon*(1+q*0.025)+(q<=4?cap*0.05:0);
+      totalRev+=rev;totalExp+=ex;
+    }
+    return{...sc,rev:Math.round(totalRev),exp:Math.round(totalExp),pnl:Math.round(totalRev-totalExp),growth:Math.round(sc.rate*100*12)};
+  });
+}
+
+function computeBreakEven(cap,mon,mg,run){
+  const growR=mg>=3?0.12:mg>=2?0.06:mg>=1?0.02:-0.02;
+  const totalInv=cap+(run||0);
+  let cumPnl=-totalInv;let beMonth=null;
+  for(let m=1;m<=60;m++){
+    const rev=Math.max(0,(mon*0.6)*(1+growR)**(m/3)+cap*0.004*m);
+    const ex=mon*(1+m*0.008);
+    cumPnl+=rev-ex;
+    if(cumPnl>=0&&!beMonth)beMonth=m;
+  }
+  const monthlyBE=mon*1.15;
+  // 12-month ROI estimate
+  let yr1Rev=0,yr1Exp=0;
+  for(let m=1;m<=12;m++){yr1Rev+=(mon*0.6)*(1+growR)**(m/3)+cap*0.004*m;yr1Exp+=mon*(1+m*0.008);}
+  const roi=totalInv>0?Math.round(((yr1Rev-yr1Exp-totalInv)/totalInv)*100):-100;
+  return{beMonth:beMonth||60,totalInv,monthlyBE:Math.round(monthlyBE),roi};
+}
+
+function computeScorecard(data,exp,tc,team,brand,online,diffr){
+  const d=data.dims;
+  const scores=[
+    Math.min(5,Math.round(d[0]/20)),          // Market Opportunity
+    Math.min(5,Math.round(d[1]/20)),          // Competitive Advantage
+    Math.min(5,Math.max(1,Math.round((exp*1.2+team*0.3)))), // Team
+    Math.min(5,Math.round(d[2]/20)),          // Financial
+    Math.min(5,Math.max(1,Math.round(tc*1.2+1))), // Tech
+    Math.min(5,Math.max(1,Math.round(online/20+brand*0.3))), // Customer Access
+    Math.min(5,Math.max(1,Math.round(d[0]/25+d[1]/30+1))),  // Scalability
+    Math.min(5,Math.max(1,Math.round((diffr&&diffr.length>5?3:1)+(tc>=2?1:0)))), // Innovation
+    Math.min(5,Math.round(d[3]/20)),          // Timing
+    Math.min(5,Math.max(1,5-Math.round(data.heat.reduce((a,b)=>a+b,0)/6))) // Risk Mgmt
+  ];
+  return scores;
+}
+
+// ════════════════════════════════════════════════
+// ANALYSIS ENGINE
+// ════════════════════════════════════════════════
+let analysisData=null;
+let aiText='';
+let aiDone=false;
+
+function gv(id){const v=parseFloat(qs('#'+id)?.value);return isNaN(v)?null:v;}
+function gs(id){return qs('#'+id)?.value?.trim()||'';}
+
+function compute(){
+  const rivals=gv('rivals')||5,bp=+(gs('bigPlayer'))||1,entry=gv('entryBar')||5,sub=gv('subThreat')||5;
+  const pp=gv('pricePressure')||5,loy=gv('loyalty')||5,inn=gv('innov')||5,brand=gv('brandStr')||5;
+  const ms=+(gs('mktSize'))||3,mg=+(gs('mktGrowth'))||2,cp=gv('custPower')||5,sp=gv('suppPower')||5;
+  const rr=gv('regRisk')||5,td=gv('techDisrupt')||5,seas=+(gs('seasonality'))||1,online=gv('onlineShare')||50;
+  const cap=gv('capital')||0,mon=gv('monthly')||0,run=gv('runway')||0,team=gv('teamSize')||1;
+  const exp=+(gs('experience'))||0,tc=+(gs('techCap'))||0,diffr=gs('diffr');
+  const tl=+(gs('timeline'))||12;
+
+  // Porter (favorability 0-10)
+  const rivalry=Math.max(0,Math.min(10,10-rivals*0.5-bp*1.2-pp*0.3+brand*0.15));
+  const entryF=Math.min(10,entry*0.85+loy*0.15);
+  const subF=Math.max(0,10-sub);
+  const buyerF=Math.max(0,10-cp);
+  const supplierF=Math.max(0,10-sp);
+  const porterVals=[rivalry,entryF,subF,buyerF,supplierF];
+  const porterAvg=porterVals.reduce((a,b)=>a+b,0)/5;
+
+  // PESTEL (risk 0-10)
+  const pestel=[
+    Math.min(10,rr*0.6+bp*0.3+seas*0.4),
+    Math.min(10,Math.max(0,8-mg*1.5)+pp*0.3+seas*0.3),
+    Math.min(10,loy*0.35+(10-online/10)*0.25+seas*0.2+3),
+    td,
+    Math.min(10,rr*0.25+td*0.15+3.5),
+    Math.min(10,rr*0.75+bp*0.25)
+  ];
+
+  // Dimensions (0-100)
+  let mktS=12+ms*10+mg*10+(mg>=3?8:0)+(online>60?5:0);
+  mktS=Math.min(100,Math.max(0,mktS));
+  let compS=12+rivalry*3.5+(diffr&&diffr.length>8?20:diffr&&diffr.length>3?10:0)+exp*4+brand*1.5-(bp>=3?15:bp>=2?8:0)+inn*0.5;
+  compS=Math.min(100,Math.max(0,compS));
+  let resS=8+(cap>=100000?22:cap>=50000?16:cap>=20000?9:3)+(run>=cap?8:run>=cap*0.5?4:0)+exp*7+(team>=5?14:team>=3?9:team>=2?5:0)+(tc>=3?10:tc>=2?6:tc>=1?3:0);
+  resS=Math.min(100,Math.max(0,resS));
+  let timS=18+mg*7+(tl<=6?12:tl<=12?6:0)+(entry>=7?7:0)+(tc>=2?5:0)+(inn>=6?4:0)+(online>50?4:0);
+  timS=Math.min(100,Math.max(0,timS));
+  let surv=Math.round((mktS*0.22+compS*0.28+resS*0.24+timS*0.14+porterAvg*2.5)*0.82);
+  surv=Math.min(95,Math.max(8,surv));
+  const dims=[mktS,compS,resS,timS,surv];
+  const overall=Math.round(mktS*0.18+compS*0.24+resS*0.22+timS*0.14+surv*0.22);
+
+  // Monte Carlo
+  const mcSurv=Math.min(92,Math.max(8,Math.round(surv*0.75+porterAvg*2.5+exp*1.5)));
+
+  // Financial projection (12 quarters)
+  const growR=mg>=3?0.12:mg>=2?0.06:mg>=1?0.02:-0.02;
+  const projData=[];
+  for(let q=1;q<=12;q++){
+    const rev=Math.max(0,(mon*0.7)*(1+growR)**q+cap*0.015*q+(online/100)*mon*0.2*q);
+    const ex=mon*(1+q*0.025)+(q<=4?cap*0.05:0);
+    projData.push({q,rev:Math.round(rev),exp:Math.round(ex),pnl:Math.round(rev-ex)});
+  }
+
+  // Risk heatmap (0-3)
+  const heat=[
+    cap<15000?3:cap<40000?2:run<mon*6?1:0,
+    team<=1?2:tc<=1?2:tc<=0?3:1,
+    mg<=1?3:ms<=2?2:seas>=2?2:1,
+    rivals>=10?3:rivals>=6?2:bp>=3?3:bp>=2?2:1,
+    rr>=8?3:rr>=5?2:rr>=3?1:0,
+    td>=8?3:td>=6?2:1
+  ];
+
+  // SWOT
+  const sw={s:[],w:[],o:[],t:[]};
+  const L=LANG==='tr';
+  if(ms>=3&&mg>=2)sw.s.push(L?'Büyük ve büyüyen pazarda konumlanma':'Large growing market positioning');
+  if(rivals<=3)sw.s.push(L?'Düşük rekabet ortamı':'Low competition');
+  if(exp>=2)sw.s.push(L?'Güçlü sektör deneyimi':'Strong industry experience');
+  if(cap>=50000)sw.s.push(L?'Yeterli sermaye tabanı':'Sufficient capital');
+  if(diffr&&diffr.length>5)sw.s.push(L?'Net rekabet avantajı / benzersiz değer önerisi':'Clear competitive advantage / UVP');
+  if(team>=3)sw.s.push(L?'Güçlü ekip yapısı':'Strong team');
+  if(tc>=2)sw.s.push(L?'Hazır teknoloji altyapısı':'Ready tech infrastructure');
+  if(brand>=6)sw.s.push(L?'Mevcut marka bilinirliği':'Existing brand awareness');
+  if(online>60)sw.s.push(L?'Güçlü dijital kanal stratejisi':'Strong digital channel strategy');
+
+  if(exp<=0)sw.w.push(L?'Sektör deneyimi eksikliği':'Lack of industry experience');
+  if(cap<20000)sw.w.push(L?'Yetersiz başlangıç sermayesi':'Insufficient starting capital');
+  if(rivals>=7)sw.w.push(L?'Yoğun rekabet ortamı':'Intense competition');
+  if(bp>=2)sw.w.push(L?'Büyük oyuncuların pazar hakimiyeti':'Major player market dominance');
+  if(!diffr||diffr.length<3)sw.w.push(L?'Belirsiz farklılaşma stratejisi':'Unclear differentiation');
+  if(team<=1)sw.w.push(L?'Tek kişilik ekip — çok yönlülük riski':'Solo team — versatility risk');
+  if(tc<=0)sw.w.push(L?'Teknoloji altyapısı tamamen eksik':'No tech infrastructure');
+  if(brand<=2)sw.w.push(L?'Marka bilinirliği yok':'No brand awareness');
+
+  if(mg>=3)sw.o.push(L?'Hızlı büyüyen pazar — erken giriş avantajı':'Fast-growing market — early mover advantage');
+  sw.o.push(L?'Dijital dönüşüm ve online kanal fırsatları':'Digital transformation & online channel opportunities');
+  if(rivals<=5)sw.o.push(L?'Niş pazar boşlukları':'Niche market gaps');
+  if(td>=5)sw.o.push(L?'Teknolojik inovasyon ile farklılaşma':'Differentiation through tech innovation');
+  sw.o.push(L?'Stratejik ortaklık ve ekosistem fırsatları':'Strategic partnership & ecosystem opportunities');
+  if(inn>=6)sw.o.push(L?'İnovatif sektörde yeni iş modeli fırsatı':'New business model opportunity in innovative sector');
+
+  if(rivals>=6)sw.t.push(L?'Mevcut rakiplerin agresif fiyat/pazarlama stratejileri':'Aggressive competitor pricing/marketing strategies');
+  sw.t.push(L?'Makroekonomik belirsizlikler ve döviz riskleri':'Macroeconomic uncertainties & currency risks');
+  if(rr>=5)sw.t.push(L?'Düzenleyici değişiklik ve uyum maliyeti riskleri':'Regulatory change & compliance cost risks');
+  if(sub>=6)sw.t.push(L?'İkame ürün/hizmet tehdidi':'Substitute product/service threat');
+  if(td>=7)sw.t.push(L?'Hızlı teknolojik değişim — iş modelini eskitme riski':'Rapid tech change — business model obsolescence risk');
+  if(seas>=2)sw.t.push(L?'Mevsimsel talep dalgalanması':'Seasonal demand fluctuation');
+
+  // Recs
+  const recs=[];
+  const ar=(ti,de,pr,co)=>recs.push({title:ti,desc:de,pri:pr,color:co,bg:co+'18'});
+  const tx=I[LANG];
+  if(compS<50)ar(L?'Acil: Farklılaşma Stratejisi Geliştirin':'Urgent: Develop Differentiation Strategy',L?'Rakiplerden net ayrışma sağlayacak benzersiz değer önerisi (UVP) oluşturun. Müşteri deneyiminde radikal fark yaratın. Fiyat yerine değer odaklı konumlanın.':'Create a unique value proposition (UVP). Make radical difference in customer experience. Position on value, not price.',tx.priCritical,'#f43f5e');
+  if(rivals>=6||bp>=2)ar(L?'Niş Pazar Segmentine Odaklanın':'Focus on Niche Market Segment',L?'Geniş pazarla doğrudan rekabet yerine, belirli bir müşteri segmentinde derinleşin. "Herkes için her şey" yerine "belirli bir kitle için en iyi" olun.':'Go deep in a specific segment instead of competing broadly. Be "the best for a specific audience" instead of "everything for everyone".',tx.priHigh,'#f59e0b');
+  if(cap<50000||run<mon*6)ar(L?'Yalın Başlangıç (Lean Startup) Metodolojisi':'Lean Startup Methodology',L?'MVP ile başlayın, build-measure-learn döngüleri kurun. Sermayeyi en kritik aktivitelere yönlendirin. İlk 3 ayda product-market fit\'i doğrulayın.':'Start with MVP, build-measure-learn cycles. Direct capital to critical activities. Validate product-market fit in first 3 months.',tx.priHigh,'#f59e0b');
+  if(exp<=1)ar(L?'Mentorluk & Sektörel Ağ Oluşturma':'Mentorship & Industry Network Building',L?'Deneyim açığını kapatmak için sektör mentorları, danışma kurulu ve startup ekosistemlerine aktif katılın. Haftada 2+ networking etkinliği hedefleyin.':'Bridge experience gap with industry mentors, advisory board, and startup ecosystems. Target 2+ networking events per week.',tx.priHigh,'#f59e0b');
+  ar(L?'Dijital Öncelikli Büyüme Stratejisi':'Digital-First Growth Strategy',L?'İçerik pazarlaması, SEO/SEM, sosyal medya ve topluluk oluşturma ile düşük maliyetli organik büyüme sağlayın. İlk müşterilerinizi dijitalden edinin.':'Drive low-cost organic growth through content marketing, SEO/SEM, social media, and community building. Acquire first customers digitally.',tx.priMedium,'#0ea5e9');
+  ar(L?'Veri Odaklı Karar Mekanizması Kurun':'Build Data-Driven Decision Engine',L?'Birinci günden analitik altyapı kurun. A/B testleri, kohort analizi, müşteri davranış takibi ve KPI dashboard\'ları ile yönetin. Sezgi değil, veri ile karar verin.':'Set up analytics infrastructure from day one. Manage with A/B tests, cohort analysis, behavior tracking, and KPI dashboards. Decide with data, not intuition.',tx.priStrategic,'#14b8a6');
+  ar(L?'Stratejik Ortaklıklar & Ekosistem Entegrasyonu':'Strategic Partnerships & Ecosystem Integration',L?'Tamamlayıcı işletmeler, dağıtım kanalları ve teknoloji ortaklarıyla entegrasyon yapın. Pazara giriş maliyetini düşürüp erişimi genişletin.':'Integrate with complementary businesses, distribution channels, and tech partners. Reduce entry cost and expand reach.',tx.priMedium,'#0ea5e9');
+
+  // Competitor map
+  const yourPos={x:Math.min(35,10+compS*0.2+brand*0.5),y:Math.min(88,25+mktS*0.35+mg*6)};
+  const rivalDots=[];
+  for(let i=0;i<Math.min(rivals,7);i++){
+    rivalDots.push({x:15+Math.random()*70,y:10+Math.random()*75,s:7+Math.random()*(bp>=2?16:8)});
+  }
+
+  return {porterVals,pestel,dims,overall,mcSurv,heat,sw,recs,projData,yourPos,rivalDots,porterAvg,
+    scenarios:computeScenarios(cap,mon,mg),
+    breakEven:computeBreakEven(cap,mon,mg,run),
+    scorecard:computeScorecard({dims:[mktS,compS,resS,timS,surv],heat},exp,tc,team,brand,online,diffr),
+    rivalsList:rivals_data.filter(r=>r.name)
+  };
+}
+
+// ════════════════════════════════════════════════
+// AI CALL
+// ════════════════════════════════════════════════
+// Saved form snapshot for AI (captured before panels hide)
+let savedForm={};
+function captureForm(){
+  const selText=id=>{const el=qs('#'+id);return el?.options[el.selectedIndex]?.text||'';};
+  const selVal=id=>qs('#'+id)?.value||'';
+  savedForm={
+    idea:gs('ideaName'),sector:selText('sector'),desc:gs('ideaDesc'),diffr:gs('diffr'),
+    country:gs('country'),city:gs('city'),bizModel:selText('bizModel'),
+    capital:gv('capital')||0,monthly:gv('monthly')||0,runway:gv('runway')||0,
+    team:gv('teamSize')||1,exp:selText('experience'),online:gv('onlineShare')||50,
+    mktSize:selText('mktSize'),mktGrowth:selText('mktGrowth'),mktGrowthVal:+(selVal('mktGrowth'))||2,
+    rivals:gv('rivals')||5,entryBar:gv('entryBar')||5,
+    pricePressure:gv('pricePressure')||5,subThreat:gv('subThreat')||5,
+    loyalty:gv('loyalty')||5,suppPower:gv('suppPower')||5
+  };
+}
+
+function generateFallbackAI(data){
+  const f=savedForm;const L=LANG==='tr';
+  const strong=data.overall>=60;const survGood=data.mcSurv>=50;
+  if(L){
+    let t=`1. STRATEJİK POZİSYON DEĞERLENDİRMESİ\n${f.idea||'Bu girişim'}, ${f.sector||'hedef sektörde'} %${data.overall} kazanma olasılığı ile ${strong?'güçlü bir başlangıç pozisyonuna sahip':'geliştirilmesi gereken bir konumda'}. `;
+    t+=`Porter analizi ${data.porterAvg.toFixed(1)}/10 ortalama ile ${data.porterAvg>=6?'olumlu bir rekabet ortamı':'dikkatli bir strateji gerektiren bir rekabet yapısı'} gösteriyor. `;
+    t+=`${f.diffr?'Belirtilen rekabet avantajı ('+f.diffr+') doğru uygulanırsa önemli bir farklılaşma sağlayabilir.':'Henüz net bir rekabet avantajı tanımlanmamış olması kritik bir eksiklik.'}\n\n`;
+    t+=`2. KRİTİK RİSK ANALİZİ\n`;
+    if(f.capital<30000)t+=`Sermaye yetersizliği (${fmtCur(f.capital)}) en kritik risk faktörü. Yalın başlangıç stratejisi ve MVP yaklaşımı ile maliyetleri minimize edin. `;
+    if(f.rivals>=6)t+=`${f.rivals} doğrudan rakip ile yoğun bir rekabet ortamı mevcut. Niş segmentlere odaklanarak doğrudan çarpışmadan kaçının. `;
+    t+=`Nakit akışı yönetimi ilk 12 ay için kritik öneme sahip — aylık burn rate'i yakından takip edin.\n\n`;
+    t+=`3. FIRSAT HARİTASI\n${f.mktGrowth||'Pazar'} büyüme trendi ${data.dims[0]>=60?'cazip fırsatlar sunuyor':'dikkatli değerlendirilmeli'}. `;
+    t+=`Dijital kanallar (%${f.online} online payı hedefi) ile düşük maliyetli müşteri edinimi mümkün. Stratejik ortaklıklar pazara giriş süresini kısaltabilir.\n\n`;
+    t+=`4. İLK 90 GÜN EYLEM PLANI\n— MVP geliştirin ve ilk 10 müşteri ile product-market fit'i test edin\n— Hedef müşteri segmentini daraltın ve değer önerisini netleştirin\n— Dijital pazarlama altyapısını kurun (web sitesi, sosyal medya, SEO)\n— Sektör mentoru ve danışma kurulu oluşturun\n— Nakit akışı takip sistemi kurun, haftalık finansal kontrol yapın\n\n`;
+    t+=`5. 12 AYLIK VİZYON\n1 yıl sonunda ${f.idea||'işletme'} hedef pazarda tanınan bir oyuncu haline gelmeli. İlk sadık müşteri tabanını oluşturup, tekrarlayan gelir modelini doğrulamak birincil hedef olmalı.\n\n`;
+    t+=`6. FİNANSAL UYARI\nMevcut sermaye (${fmtCur(f.capital)}) ve aylık bütçe (${fmtCur(f.monthly)}) ile yaklaşık ${f.monthly>0?Math.round((f.capital+f.runway)/f.monthly):12} aylık pist mevcut. ${(f.capital+f.runway)/Math.max(f.monthly,1)<6?'Bu süre kritik düzeyde kısa — ek finansman veya gelir hızlandırma acil öncelik.':'Bu süre makul ancak ilk 6 ayda gelir üretmeye başlanması önemli.'}`;
+    return t;
+  }else{
+    let t=`1. STRATEGIC POSITION ASSESSMENT\n${f.idea||'This venture'} in ${f.sector||'the target sector'} shows a ${data.overall}% win probability, indicating ${strong?'a strong starting position':'a position that needs improvement'}. `;
+    t+=`Porter's analysis at ${data.porterAvg.toFixed(1)}/10 suggests ${data.porterAvg>=6?'a favorable competitive environment':'a competitive landscape requiring careful strategy'}. `;
+    t+=`${f.diffr?'The stated advantage ('+f.diffr+') could provide significant differentiation if executed well.':'The lack of a clearly defined competitive advantage is a critical gap.'}\n\n`;
+    t+=`2. CRITICAL RISK ANALYSIS\n`;
+    if(f.capital<30000)t+=`Capital insufficiency (${fmtCur(f.capital)}) is the top risk. Adopt lean startup methodology and MVP approach to minimize costs. `;
+    if(f.rivals>=6)t+=`With ~${f.rivals} direct competitors, the market is crowded. Focus on niche segments to avoid head-on competition. `;
+    t+=`Cash flow management is critical for the first 12 months — monitor monthly burn rate closely.\n\n`;
+    t+=`3. OPPORTUNITY MAP\n${f.mktGrowth||'Market'} growth trend ${data.dims[0]>=60?'presents attractive opportunities':'should be evaluated carefully'}. `;
+    t+=`Digital channels (${f.online}% online target) enable low-cost customer acquisition. Strategic partnerships can accelerate market entry.\n\n`;
+    t+=`4. FIRST 90 DAYS ACTION PLAN\n— Build MVP and test product-market fit with first 10 customers\n— Narrow target customer segment and clarify value proposition\n— Set up digital marketing infrastructure (website, social media, SEO)\n— Build industry mentor and advisory board\n— Establish cash flow tracking, conduct weekly financial reviews\n\n`;
+    t+=`5. 12-MONTH VISION\nWithin one year, ${f.idea||'the business'} should become a recognized player in the target market. Building a loyal customer base and validating a recurring revenue model should be the primary objectives.\n\n`;
+    t+=`6. FINANCIAL WARNING\nCurrent capital (${fmtCur(f.capital)}) and monthly budget (${fmtCur(f.monthly)}) provide approximately ${f.monthly>0?Math.round((f.capital+f.runway)/f.monthly):12} months of runway. ${(f.capital+f.runway)/Math.max(f.monthly,1)<6?'This is critically short — additional funding or revenue acceleration is an urgent priority.':'This is reasonable but generating revenue within the first 6 months is important.'}`;
+    return t;
+  }
+}
+
+async function callAI(data){
+  aiDone=false;aiText='';
+  const tx=I[LANG];
+  try{
+    const f=savedForm;
+    const prompt=LANG==='tr'?
+`Sen dünya çapında tanınan bir iş stratejisi danışmanı ve rekabet analistisin. Aşağıdaki verilere dayanarak derinlemesine, aksiyona dönüştürülebilir, profesyonel bir stratejik değerlendirme raporu yaz. Türkçe yaz. Markdown KULLANMA, düz metin yaz. Satır başları ile paragrafları ayır.
+
+═══ GİRİŞİMCİ PROFİLİ ═══
+İş Fikri: ${f.idea||'Belirtilmemiş'}
+Sektör: ${f.sector}
+Açıklama: ${f.desc||'Belirtilmemiş'}
+Rekabet Avantajı: ${f.diffr||'Belirtilmemiş'}
+Hedef Pazar: ${f.country||'?'} — ${f.city||'?'}
+İş Modeli: ${f.bizModel}
+Sermaye: ${fmtCur(f.capital)} | Aylık Bütçe: ${fmtCur(f.monthly)} | Nakit Rezerv: ${fmtCur(f.runway)}
+Ekip: ${f.team} kişi | Deneyim: ${f.exp}
+Online Kanal Payı: %${f.online}
+
+═══ PAZAR VERİLERİ ═══
+Pazar Büyüklüğü: ${f.mktSize} | Büyüme: ${f.mktGrowth}
+Doğrudan Rakip: ~${f.rivals} | Giriş Engeli: ${f.entryBar}/10
+Fiyat Baskısı: ${f.pricePressure}/10 | İkame Tehdidi: ${f.subThreat}/10
+Müşteri Sadakati: ${f.loyalty}/10 | Tedarikçi Gücü: ${f.suppPower}/10
+
+═══ ANALİZ SONUÇLARI ═══
+Kazanma Olasılığı: %${data.overall}
+5 Yıllık Hayatta Kalma: %${data.mcSurv}
+Porter 5 Güç Ort.: ${data.porterAvg.toFixed(1)}/10
+Boyut Skorları: Pazar=${data.dims[0]}, Rekabet=${data.dims[1]}, Kaynak=${data.dims[2]}, Zamanlama=${data.dims[3]}, Hayatta Kalma=${data.dims[4]}
+
+LÜTFEN ŞU YAPIYLA YAZ:
+
+1. STRATEJİK POZİSYON DEĞERLENDİRMESİ (3-4 cümle): Bu girişimin genel stratejik konumunu, güçlü ve zayıf yönlerini özetle.
+
+2. KRİTİK RİSK ANALİZİ (3-4 cümle): En önemli 2-3 risk faktörünü belirle ve her biri için somut yönetim stratejisi öner.
+
+3. FIRSAT HARİTASI (3-4 cümle): En büyük fırsatları belirle ve bunları nasıl yakalayabileceğine dair somut adımlar öner.
+
+4. İLK 90 GÜN EYLEM PLANI (4-5 madde): İlk 3 ayda yapılması gereken en kritik aksiyonları öncelik sırasına göre listele.
+
+5. 12 AYLIK VİZYON (2-3 cümle): 1 yıl sonra nerede olunması gerektiğini ve bu hedefe nasıl ulaşılacağını özetle.
+
+6. FİNANSAL UYARI (2 cümle): Nakit akışı ve sermaye yeterliliği hakkında net bir değerlendirme yap.
+
+Toplam 280-350 kelime olsun. Profesyonel, somut ve aksiyona dönüştürülebilir bir dil kullan. Her bölümü satır başıyla ayır. Genel klişelerden kaçın, bu spesifik iş fikrine özel tavsiyeler ver.`
+:
+`You are a world-renowned business strategy consultant and competition analyst. Based on the data below, write an in-depth, actionable, professional strategic assessment report. Write in English. Do NOT use Markdown, write plain text. Separate paragraphs with line breaks.
+
+═══ ENTREPRENEUR PROFILE ═══
+Business Idea: ${f.idea||'Not specified'}
+Industry: ${f.sector}
+Description: ${f.desc||'Not specified'}
+Competitive Advantage: ${f.diffr||'Not specified'}
+Target Market: ${f.country||'?'} — ${f.city||'?'}
+Business Model: ${f.bizModel}
+Capital: ${fmtCur(f.capital)} | Monthly Budget: ${fmtCur(f.monthly)} | Cash Reserve: ${fmtCur(f.runway)}
+Team: ${f.team} people | Experience: ${f.exp}
+Online Channel Share: ${f.online}%
+
+═══ MARKET DATA ═══
+Market Size: ${f.mktSize} | Growth: ${f.mktGrowth}
+Direct Competitors: ~${f.rivals} | Entry Barrier: ${f.entryBar}/10
+Price Pressure: ${f.pricePressure}/10 | Substitute Threat: ${f.subThreat}/10
+Customer Loyalty: ${f.loyalty}/10 | Supplier Power: ${f.suppPower}/10
+
+═══ ANALYSIS RESULTS ═══
+Win Probability: ${data.overall}%
+5-Year Survival: ${data.mcSurv}%
+Porter 5 Forces Avg: ${data.porterAvg.toFixed(1)}/10
+Dimension Scores: Market=${data.dims[0]}, Competition=${data.dims[1]}, Resources=${data.dims[2]}, Timing=${data.dims[3]}, Survival=${data.dims[4]}
+
+PLEASE WRITE WITH THIS STRUCTURE:
+
+1. STRATEGIC POSITION ASSESSMENT (3-4 sentences): Summarize the venture's overall strategic position, strengths, and weaknesses.
+
+2. CRITICAL RISK ANALYSIS (3-4 sentences): Identify top 2-3 risk factors and propose concrete management strategies for each.
+
+3. OPPORTUNITY MAP (3-4 sentences): Identify biggest opportunities and suggest concrete steps to capture them.
+
+4. FIRST 90 DAYS ACTION PLAN (4-5 items): List the most critical actions for the first 3 months in priority order.
+
+5. 12-MONTH VISION (2-3 sentences): Summarize where the business should be in 1 year and how to get there.
+
+6. FINANCIAL WARNING (2 sentences): Give a clear assessment of cash flow and capital adequacy.
+
+Total 280-350 words. Professional, specific, and actionable language. Separate each section with a line break. Avoid generic clichés, give advice specific to this particular business idea.`;
+
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,messages:[{role:'user',content:prompt}]})
+    });
+    const d=await res.json();
+    const txt=d.content?.filter(c=>c.type==='text').map(c=>c.text).join('\n');
+    aiText=txt&&txt.length>50?txt:generateFallbackAI(data);
+  }catch(e){
+    console.error('AI call error:',e);
+    aiText=generateFallbackAI(data);
+  }
+  aiDone=true;
+  renderAISection();
+}
+
+// ════════════════════════════════════════════════
+// RENDER RESULTS
+// ════════════════════════════════════════════════
+function renderResults(){
+  const d=analysisData;if(!d)return;
+  const tx=I[LANG];
+  const vc=s=>s>=75?'#10b981':s>=60?'#0ea5e9':s>=45?'#f59e0b':'#f43f5e';
+  const circ=(val,color,label,sub)=>{
+    const c=2*Math.PI*62,off=c-(val/100)*c;
+    return `<div class="circ"><svg viewBox="0 0 150 150"><circle class="trail" cx="75" cy="75" r="62"/><circle class="prog" cx="75" cy="75" r="62" stroke="${color}" stroke-dasharray="${c}" stroke-dashoffset="${off}" style="transform:rotate(-90deg);transform-origin:center"/></svg><div class="circ-num" style="color:${color}">%${val}</div><div class="circ-lbl">${label}</div></div>`;
+  };
+
+  // Porter radar
+  const radarSVG=(vals,labels)=>{
+    const s=300,cx=s/2,cy=s/2,r=s/2-48;
+    const n=vals.length,angles=[...Array(n)].map((_,i)=>(Math.PI*2*i/n)-(Math.PI/2));
+    const pt=(a,d)=>[cx+d*Math.cos(a),cy+d*Math.sin(a)];
+    let svg=`<svg viewBox="0 0 ${s} ${s}" style="width:100%;max-width:${s}px;margin:0 auto;display:block">`;
+    [.25,.5,.75,1].forEach(l=>{svg+=`<polygon points="${angles.map(a=>pt(a,r*l).join(',')).join(' ')}" fill="none" stroke="#1a2240" stroke-width="1"/>`});
+    angles.forEach(a=>{svg+=`<line x1="${cx}" y1="${cy}" x2="${pt(a,r)[0]}" y2="${pt(a,r)[1]}" stroke="#1a2240" stroke-width="1"/>`});
+    svg+=`<polygon points="${vals.map((v,i)=>pt(angles[i],v/10*r).join(',')).join(' ')}" fill="rgba(99,102,241,.14)" stroke="#6366f1" stroke-width="2.5"/>`;
+    vals.forEach((v,i)=>{const p=pt(angles[i],v/10*r);svg+=`<circle cx="${p[0]}" cy="${p[1]}" r="5" fill="#6366f1" stroke="#080c16" stroke-width="2"/>`});
+    labels.forEach((lb,i)=>{const p=pt(angles[i],r+28);const lines=lb.split('\n');lines.forEach((line,j)=>{svg+=`<text x="${p[0]}" y="${p[1]+j*13-((lines.length-1)*6)}" text-anchor="middle" dominant-baseline="central" fill="#8892b5" font-size="10.5" font-weight="500" font-family="Outfit">${line}</text>`})});
+    vals.forEach((v,i)=>{const p=pt(angles[i],v/10*r+15);svg+=`<text x="${p[0]}" y="${p[1]}" text-anchor="middle" dominant-baseline="central" fill="#e8ecf8" font-size="11" font-weight="700" font-family="IBM Plex Mono">${v.toFixed(1)}</text>`});
+    svg+='</svg>';return svg;
+  };
+
+  // PESTEL bars
+  const pColors=['#f43f5e','#f59e0b','#3b82f6','#8b5cf6','#10b981','#14b8a6'];
+  const pestelHTML=d.pestel.map((v,i)=>`<div style="display:flex;align-items:center;gap:10px;margin-bottom:7px"><div style="width:72px;font-size:11.5px;font-weight:600;color:#8892b5;text-align:right">${tx.pestelLabels[i]}</div><div style="flex:1;height:22px;background:#0e1322;border-radius:5px;overflow:hidden"><div style="height:100%;width:${v*10}%;background:${pColors[i]};border-radius:5px;transition:width 1.5s;display:flex;align-items:center;justify-content:flex-end;padding-right:6px"><span style="font-size:10px;font-weight:700;color:#fff;font-family:IBM Plex Mono">${v.toFixed(1)}</span></div></div></div>`).join('');
+
+  // Monte Carlo histogram
+  const bins=24;const mcData=[];
+  for(let i=0;i<bins;i++){const x=i/bins*100;const h=Math.exp(-0.5*((x-d.mcSurv)/16)**2)*100+Math.random()*12;mcData.push({x,h:Math.max(2,h)});}
+  const mcMax=Math.max(...mcData.map(d=>d.h));
+  let mcSVG=`<svg viewBox="0 0 620 180" style="width:100%">`;
+  mcData.forEach((b,i)=>{const bw=620/bins-2;const x=i*(bw+2);const h=(b.h/mcMax)*150;const isCtr=Math.abs(b.x-d.mcSurv)<100/bins;
+    mcSVG+=`<rect x="${x}" y="${155-h}" width="${bw}" height="${h}" rx="3" fill="${isCtr?'#10b981':b.x<d.mcSurv?'rgba(16,185,129,.25)':'rgba(244,63,94,.25)'}"/>`});
+  const mcLineX=(d.mcSurv/100)*620;
+  mcSVG+=`<line x1="${mcLineX}" y1="0" x2="${mcLineX}" y2="155" stroke="#10b981" stroke-width="2" stroke-dasharray="5,3"/>`;
+  mcSVG+=`<text x="${mcLineX}" y="172" text-anchor="middle" fill="#10b981" font-size="12" font-weight="700" font-family="IBM Plex Mono">%${d.mcSurv}</text>`;
+  mcSVG+=`<text x="4" y="172" fill="#5a6488" font-size="9" font-family="Outfit">0%</text><text x="616" y="172" text-anchor="end" fill="#5a6488" font-size="9" font-family="Outfit">100%</text></svg>`;
+
+  // Financial projection
+  const pMax=Math.max(...d.projData.map(p=>Math.max(p.rev,p.exp)));
+  const pw=640,ph=170,pp=45;const bw=(pw-pp*2)/12/3-1;
+  let fSVG=`<svg viewBox="0 0 ${pw} ${ph+30}" style="width:100%">`;
+  [0,.25,.5,.75,1].forEach(l=>{fSVG+=`<line x1="${pp}" y1="${10+ph*(1-l)}" x2="${pw-20}" y2="${10+ph*(1-l)}" stroke="#1a2240" stroke-width="1"/>`});
+  d.projData.forEach((p,i)=>{const gx=pp+i*((pw-pp-20)/12);
+    fSVG+=`<rect x="${gx}" y="${10+ph-(p.rev/pMax)*ph}" width="${bw}" height="${(p.rev/pMax)*ph}" rx="2" fill="#10b981" opacity=".75"/>`;
+    fSVG+=`<rect x="${gx+bw+1}" y="${10+ph-(p.exp/pMax)*ph}" width="${bw}" height="${(p.exp/pMax)*ph}" rx="2" fill="#f43f5e" opacity=".65"/>`;
+    fSVG+=`<text x="${gx+bw}" y="${ph+25}" text-anchor="middle" fill="#5a6488" font-size="9" font-family="Outfit">Ç${i+1}</text>`});
+  // P/L line
+  const pnlPts=d.projData.map((p,i)=>{const gx=pp+i*((pw-pp-20)/12)+bw;const y=10+ph/2-((p.pnl/pMax)*ph/2);return `${gx},${y}`}).join(' ');
+  fSVG+=`<polyline points="${pnlPts}" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round"/>`;
+  fSVG+='</svg>';
+
+  // Competitor map
+  const cw=480,ch2=320,cpad=45;
+  let cmSVG=`<svg viewBox="0 0 ${cw} ${ch2}" style="width:100%"><defs><linearGradient id="qg" x1="0" y1="1" x2="1" y2="0"><stop offset="0%" stop-color="rgba(244,63,94,.04)"/><stop offset="100%" stop-color="rgba(16,185,129,.06)"/></linearGradient></defs>`;
+  cmSVG+=`<rect x="${cpad}" y="8" width="${cw-cpad*2}" height="${ch2-cpad-8}" rx="6" fill="url(#qg)"/>`;
+  cmSVG+=`<line x1="${cpad}" y1="${ch2-cpad}" x2="${cw-cpad}" y2="${ch2-cpad}" stroke="#252e50" stroke-width="1"/>`;
+  cmSVG+=`<line x1="${cpad}" y1="8" x2="${cpad}" y2="${ch2-cpad}" stroke="#252e50" stroke-width="1"/>`;
+  cmSVG+=`<text x="${cw/2}" y="${ch2-8}" text-anchor="middle" fill="#5a6488" font-size="10" font-family="Outfit">${tx.compMapX}</text>`;
+  cmSVG+=`<text x="10" y="${(ch2-cpad)/2}" text-anchor="middle" fill="#5a6488" font-size="10" font-family="Outfit" transform="rotate(-90,10,${(ch2-cpad)/2})">${tx.compMapY}</text>`;
+  d.rivalDots.forEach((r,i)=>{const rx=cpad+(r.x/100)*(cw-cpad*2);const ry=8+((100-r.y)/100)*(ch2-cpad-8);
+    cmSVG+=`<circle cx="${rx}" cy="${ry}" r="${r.s}" fill="rgba(244,63,94,.15)" stroke="#f43f5e" stroke-width="1.5"/>`;
+    cmSVG+=`<text x="${rx}" y="${ry+r.s+12}" text-anchor="middle" fill="#5a6488" font-size="9" font-family="Outfit">${tx.compMapRival} ${i+1}</text>`});
+  const yx=cpad+(d.yourPos.x/100)*(cw-cpad*2),yy=8+((100-d.yourPos.y)/100)*(ch2-cpad-8);
+  cmSVG+=`<circle cx="${yx}" cy="${yy}" r="13" fill="rgba(99,102,241,.2)" stroke="#6366f1" stroke-width="2.5"><animate attributeName="r" values="13;16;13" dur="2s" repeatCount="indefinite"/></circle>`;
+  cmSVG+=`<text x="${yx}" y="${yy+26}" text-anchor="middle" fill="#6366f1" font-size="11" font-weight="700" font-family="Outfit">${tx.compMapYou}</text></svg>`;
+
+  // Risk heatmap
+  const hColors=['#10b981','#f59e0b','#f97316','#f43f5e'];
+  let hmHTML=`<div style="display:grid;grid-template-columns:90px repeat(4,1fr);gap:3px">`;
+  hmHTML+=`<div></div>${tx.heatLevels.map(l=>`<div class="hm-hlbl">${l}</div>`).join('')}`;
+  tx.heatCats.forEach((c,ci)=>{
+    hmHTML+=`<div class="hm-lbl">${c}</div>`;
+    tx.heatLevels.forEach((_,li)=>{
+      const active=d.heat[ci]===li;
+      hmHTML+=`<div class="hm-cell" style="background:${active?hColors[li]:'#0e1322'};border:1px solid ${active?hColors[li]:'#1a2240'};opacity:${active?1:.35}">${active?'●':''}</div>`;
+    });
+  });
+  hmHTML+='</div>';
+
+  // SWOT
+  const swotParts=[
+    {t:tx.swS,items:d.sw.s,c:'#10b981'},{t:tx.swW,items:d.sw.w,c:'#f43f5e'},
+    {t:tx.swO,items:d.sw.o,c:'#3b82f6'},{t:tx.swT,items:d.sw.t,c:'#f59e0b'}
+  ];
+
+  const ideaN=gs('ideaName')||'—';
+  const secEl=qs('#sector');const secLabel=secEl?.options[secEl.selectedIndex]?.text||'';
+
+  const el=qs('#results');
+  el.innerHTML=`
+  <!-- EXEC DASHBOARD -->
+  ${renderExecDashboard(d)}
+
+  <!-- HERO -->
+  <div class="card hero"><div class="card-ac"></div>
+    <div style="font-size:10px;font-weight:700;letter-spacing:.12em;color:#6366f1;text-transform:uppercase;margin-bottom:6px">${tx.rpt}</div>
+    <div class="hero-name">${ideaN}</div>
+    <div class="hero-meta">${secLabel}${gs('country')?' • '+gs('country'):''}${gs('city')?' — '+gs('city'):''}</div>
+    <div class="circ-w">
+      ${circ(d.overall,vc(d.overall),tx.winProb,'')}
+      ${circ(d.mcSurv,'#14b8a6',tx.survProb,tx.monteDesc)}
+    </div>
+    <div class="verdict" style="background:${vc(d.overall)}18;color:${vc(d.overall)}">${tv(d.overall)}</div>
+  </div>
+
+  <!-- DIMENSIONS -->
+  <div class="dim-g">${d.dims.map((s,i)=>{const cl=['#0ea5e9','#6366f1','#10b981','#f59e0b','#8b5cf6'][i];
+    return `<div class="dm"><div class="dm-ic">${tx.dimIcons[i]}</div><div class="dm-lb">${tx.dimLabels[i]}</div><div class="dm-sc" style="color:${vc(s)}">${s}<span style="font-size:11px;color:#5a6488">/100</span></div><div class="dm-bar"><div class="dm-fill" style="width:${s}%;background:${cl}"></div></div></div>`;}).join('')}</div>
+
+  <!-- PORTER + PESTEL -->
+  <div class="g2">
+    <div class="card"><div class="card-ac"></div><div class="card-t">🎯 ${tx.porterTitle}</div>${radarSVG(d.porterVals,tx.pLabels)}</div>
+    <div class="card"><div class="card-ac"></div><div class="card-t">🌍 ${tx.pestelTitle}</div>${pestelHTML}</div>
+  </div>
+
+  <!-- MONTE CARLO -->
+  <div class="card"><div class="card-ac"></div><div class="card-t">📈 ${tx.monteCarlo}</div><div class="card-sub">${tx.monteDesc}</div>${mcSVG}</div>
+
+  <!-- FINANCIAL + COMPETITOR MAP -->
+  <div class="g2">
+    <div class="card"><div class="card-ac"></div><div class="card-t">💰 ${tx.projTitle}</div>${fSVG}
+      <div style="display:flex;gap:14px;justify-content:center;margin-top:6px">${tx.projLegend.map((l,i)=>`<div style="display:flex;align-items:center;gap:4px;font-size:10.5px;color:#8892b5"><div style="width:9px;height:9px;border-radius:2px;background:${['#10b981','#f43f5e','#f59e0b'][i]}"></div>${l}</div>`).join('')}</div>
+    </div>
+    <div class="card"><div class="card-ac"></div><div class="card-t">🗺️ ${tx.compMapTitle}</div>${cmSVG}</div>
+  </div>
+
+  <!-- HEAT MAP -->
+  <div class="card"><div class="card-ac"></div><div class="card-t">🔥 ${tx.heatTitle}</div>${hmHTML}</div>
+
+  <!-- SCENARIO SIMULATION -->
+  <div class="card"><div class="card-ac"></div><div class="card-t">🎭 ${tx.scenTitle}</div>
+    <div class="scen-row">
+      ${d.scenarios.map((sc,i)=>{const colors=['#10b981','#0ea5e9','#f43f5e'];const bgs=['rgba(16,185,129,.08)','rgba(14,165,233,.08)','rgba(244,63,94,.08)'];const labels=[tx.scenOpt,tx.scenReal,tx.scenPes];
+        return `<div class="scen-c" style="background:${bgs[i]};border-color:${colors[i]}30">
+          <h4 style="color:${colors[i]}">${['🚀','📊','⚠️'][i]} ${labels[i]}</h4>
+          <div class="scen-val" style="color:${colors[i]}">${fmtCur(sc.rev)}</div>
+          <div class="scen-sub">${tx.scenRev}</div>
+          <div style="margin-top:6px;font-family:IBM Plex Mono;font-size:1rem;font-weight:700;color:${sc.pnl>=0?'#10b981':'#f43f5e'}">${sc.pnl>=0?'+':''}${fmtCur(sc.pnl)}</div>
+          <div class="scen-sub">${tx.scenProfit}</div>
+          <div style="margin-top:4px;font-size:11px;color:${colors[i]}">${tx.scenGrowth}: ${sc.growth>=0?'+':''}${sc.growth}%</div>
+        </div>`;}).join('')}
+    </div>
+    ${(()=>{
+      // Scenario line chart
+      const cap=savedForm.capital||10000,mon=savedForm.monthly||3000,mg=savedForm.mktGrowthVal||2;
+      const rates=[d.scenarios[0].rate,d.scenarios[1].rate,d.scenarios[2].rate];
+      const lineColors=['#10b981','#0ea5e9','#f43f5e'];
+      const pts=rates.map(rate=>{const arr=[];for(let m=1;m<=12;m++){let cum=0;for(let q=1;q<=m;q++){cum+=(mon*0.7)*(1+rate)**q+cap*0.015*q-(mon*(1+q*0.025)+(q<=4?cap*0.05:0));}arr.push(cum);}return arr;});
+      const allVals=pts.flat();const minV=Math.min(...allVals),maxV=Math.max(...allVals);
+      const w=600,h=150,pad=40;
+      let svg='<svg viewBox="0 0 '+w+' '+(h+25)+'" style="width:100%;margin-top:8px">';
+      svg+='<line x1="'+pad+'" y1="'+Math.round(pad+(h-pad)*(maxV/(maxV-minV)))+'" x2="'+(w-10)+'" y2="'+Math.round(pad+(h-pad)*(maxV/(maxV-minV)))+'" stroke="#2a3458" stroke-width="1" stroke-dasharray="4,3"/>';
+      pts.forEach((line,li)=>{const points=line.map((v,m)=>{const x=pad+m*((w-pad-10)/11);const y=pad+(h-pad)*((maxV-v)/(maxV-minV||1));return x+','+y;}).join(' ');
+        svg+='<polyline points="'+points+'" fill="none" stroke="'+lineColors[li]+'" stroke-width="2" stroke-linecap="round" opacity="'+(li===1?1:.6)+'"/>';});
+      for(let m=0;m<12;m+=2){svg+='<text x="'+(pad+m*((w-pad-10)/11))+'" y="'+(h+20)+'" text-anchor="middle" fill="#5a6488" font-size="9" font-family="Outfit">M'+(m+1)+'</text>';}
+      svg+='</svg>';return svg;
+    })()}
+  </div>
+
+  <!-- BREAK-EVEN -->
+  <div class="card"><div class="card-ac"></div><div class="card-t">📐 ${tx.beTitle}</div>
+    <div class="be-stats">
+      <div class="be-stat"><div class="be-lbl">${tx.beMonth}</div><div class="be-val" style="color:${d.breakEven.beMonth<=12?'#10b981':d.breakEven.beMonth<=24?'#f59e0b':'#f43f5e'}">${d.breakEven.beMonth} ${tx.beMonths}</div></div>
+      <div class="be-stat"><div class="be-lbl">${tx.beTotalInv}</div><div class="be-val">${fmtCur(d.breakEven.totalInv)}</div></div>
+      <div class="be-stat"><div class="be-lbl">${tx.beMonthlyBE}</div><div class="be-val">${fmtCur(d.breakEven.monthlyBE)}</div></div>
+      <div class="be-stat"><div class="be-lbl">${tx.beROI}</div><div class="be-val" style="color:${d.breakEven.roi>=0?'#10b981':'#f43f5e'}">${d.breakEven.roi>=0?'+':''}${d.breakEven.roi}%</div></div>
+    </div>
+    ${(()=>{
+      const be=d.breakEven;const cap=savedForm.capital||10000,mon=savedForm.monthly||3000,mg=savedForm.mktGrowthVal||2;
+      const growR=mg>=3?0.12:mg>=2?0.06:mg>=1?0.02:-0.02;
+      const pts=[];let cum=-(cap+(savedForm.runway||0));
+      for(let m=0;m<=Math.min(be.beMonth+6,36);m++){
+        if(m>0){const rev=(mon*0.6)*(1+growR)**(m/3)+cap*0.004*m;const ex=mon*(1+m*0.008);cum+=rev-ex;}
+        pts.push(cum);
+      }
+      const minP=Math.min(...pts),maxP=Math.max(...pts,0);
+      const w=600,h=130,pad=40;
+      let svg='<svg viewBox="0 0 '+w+' '+(h+20)+'" style="width:100%;margin-top:6px">';
+      // Zero line
+      const zeroY=pad+(h-pad)*(maxP/(maxP-minP||1));
+      svg+='<line x1="'+pad+'" y1="'+zeroY+'" x2="'+(w-10)+'" y2="'+zeroY+'" stroke="#2a3458" stroke-width="1"/>';
+      svg+='<text x="'+(pad-4)+'" y="'+(zeroY+3)+'" text-anchor="end" fill="#5a6488" font-size="9" font-family="Outfit">0</text>';
+      // Area
+      const points=pts.map((v,m)=>{const x=pad+m*((w-pad-10)/(pts.length-1||1));const y=pad+(h-pad)*((maxP-v)/(maxP-minP||1));return x+','+y;});
+      svg+='<polyline points="'+points.join(' ')+'" fill="none" stroke="#0ea5e9" stroke-width="2.5" stroke-linecap="round"/>';
+      // BE point
+      if(be.beMonth<pts.length){const bx=pad+be.beMonth*((w-pad-10)/(pts.length-1||1));
+        svg+='<circle cx="'+bx+'" cy="'+zeroY+'" r="6" fill="#10b981" stroke="#020409" stroke-width="2"/>';
+        svg+='<text x="'+bx+'" y="'+(zeroY-12)+'" text-anchor="middle" fill="#10b981" font-size="10" font-weight="700" font-family="IBM Plex Mono">'+be.beMonth+'M</text>';}
+      svg+='</svg>';return svg;
+    })()}
+  </div>
+
+  <!-- STARTUP SCORECARD -->
+  <div class="card"><div class="card-ac"></div><div class="card-t">⭐ ${tx.scTitle}</div>
+    <div class="sc-grid">
+      ${d.scorecard.map((s,i)=>`<div class="sc-item"><span class="sc-name">${tx.scLabels[i]}</span><span class="sc-stars">${'★'.repeat(s).split('').map(()=>'<span class="sc-star" style="color:#f59e0b">★</span>').join('')}${'☆'.repeat(5-s).split('').map(()=>'<span class="sc-star" style="color:#2a3458">☆</span>').join('')}</span></div>`).join('')}
+    </div>
+  </div>
+
+  ${d.rivalsList&&d.rivalsList.length>0?`
+  <!-- COMPETITOR COMPARISON TABLE -->
+  <div class="card"><div class="card-ac"></div><div class="card-t">🏆 ${tx.cmpTitle}</div>
+    <div class="cmp-wrap"><table class="cmp-tbl">
+      <thead><tr><th></th><th>${tx.cmpStrength}</th><th>${tx.cmpWeakness}</th><th>${tx.cmpShare}</th><th>${tx.cmpThreat}</th></tr></thead>
+      <tbody>
+        <tr><td class="cmp-you">⚡ ${tx.cmpYou} — ${savedForm.idea||'—'}</td><td>${savedForm.diffr||'—'}</td><td>—</td><td>—</td><td><span class="cmp-badge" style="background:rgba(99,102,241,.15);color:#6366f1">—</span></td></tr>
+        ${d.rivalsList.map(r=>{const threat=r.share>=30?3:r.share>=15?2:r.share>=5?1:0;const tColors=['#10b981','#f59e0b','#f97316','#f43f5e'];const tLabels=LANG==='tr'?['Düşük','Orta','Yüksek','Kritik']:['Low','Medium','High','Critical'];
+          return `<tr><td style="font-weight:600">🔴 ${r.name}</td><td>${r.strength||'—'}</td><td>${r.weakness||'—'}</td><td>${r.share?r.share+'%':'—'}</td><td><span class="cmp-badge" style="background:${tColors[threat]}18;color:${tColors[threat]}">${tLabels[threat]}</span></td></tr>`;}).join('')}
+      </tbody>
+    </table></div>
+  </div>
+  `:''}
+
+  <!-- SWOT + ACTION MATCHING -->
+  <div class="card"><div class="card-ac"></div><div class="card-t">📋 ${tx.swotTitle}</div>
+    <div class="swot-g">${swotParts.map(s=>`<div class="sw-c" style="border-left:3px solid ${s.c}"><h4 style="color:${s.c}">${s.t}</h4><ul>${s.items.slice(0,5).map(item=>`<li>${item}</li>`).join('')}</ul></div>`).join('')}</div>
+    ${d.sw.w.length?`<div style="margin-top:14px"><div style="font-size:13px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px">🔧 ${tx.swotActTitle}</div>
+      ${generateSwotActions(d.sw.w.slice(0,5)).map(a=>`<div class="swot-action"><div class="sa-icon">${a.icon}</div><div><strong style="color:var(--tx);font-size:11px">${a.weakness}</strong><br>${a.action}</div></div>`).join('')}
+    </div>`:''}
+  </div>
+
+  <!-- SECTOR BENCHMARK -->
+  ${renderBenchmark(d)}
+
+  <!-- AI SECTION (placeholder) -->
+  <div class="ai-b" id="aiSection">
+    <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--g1)"></div>
+    <div class="card-t">🤖 ${tx.aiTitle}</div>
+    <div class="card-sub">${tx.aiSub}</div>
+    <div id="aiContent">${aiDone?`<div class="ai-txt">${aiText}</div>`:`<div class="ai-loading"><div class="ai-spin"></div>${tx.aiLoading}</div>`}</div>
+    ${renderAIChat()}
+  </div>
+
+  <!-- RECOMMENDATIONS -->
+  <div class="card"><div class="card-ac"></div><div class="card-t">🎯 ${tx.recsTitle}</div>
+    ${d.recs.slice(0,7).map((r,i)=>`<div class="rec-i"><div class="rec-n" style="background:${r.bg};color:${r.color}">${i+1}</div><div class="rec-c"><h4>${r.title}</h4><p>${r.desc}</p><span class="rec-tag" style="background:${r.bg};color:${r.color}">${r.pri}</span></div></div>`).join('')}
+  </div>
+
+  <!-- BUSINESS MODEL CANVAS -->
+  ${(()=>{
+    const bmc=generateBMC();const bl=tx.bmcLabels;
+    return `<div class="card"><div class="card-ac"></div><div class="card-t">🧩 ${tx.bmcTitle}</div>
+      <div class="bmc-grid">
+        <div class="bmc-cell bmc-span2"><h5>🤝 ${bl[0]}</h5><ul>${bmc.partners.map(p=>'<li>'+p+'</li>').join('')}</ul></div>
+        <div class="bmc-cell"><h5>⚙️ ${bl[1]}</h5><ul>${bmc.activities.map(p=>'<li>'+p+'</li>').join('')}</ul></div>
+        <div class="bmc-cell bmc-span2" style="border-color:var(--indigo);background:rgba(99,102,241,.04)"><h5>💎 ${bl[2]}</h5><ul>${bmc.value.map(p=>'<li>'+p+'</li>').join('')}</ul></div>
+        <div class="bmc-cell"><h5>💬 ${bl[3]}</h5><ul>${bmc.relations.map(p=>'<li>'+p+'</li>').join('')}</ul></div>
+        <div class="bmc-cell bmc-span2"><h5>👥 ${bl[4]}</h5><ul>${bmc.segments.map(p=>'<li>'+p+'</li>').join('')}</ul></div>
+        <div class="bmc-cell"><h5>🏗️ ${bl[5]}</h5><ul>${bmc.resources.map(p=>'<li>'+p+'</li>').join('')}</ul></div>
+        <div class="bmc-cell"><h5>📢 ${bl[6]}</h5><ul>${bmc.channels.map(p=>'<li>'+p+'</li>').join('')}</ul></div>
+        <div class="bmc-cell bmc-wide" style="border-color:var(--rose)"><h5>💸 ${bl[7]}</h5><ul>${bmc.costs.map(p=>'<li>'+p+'</li>').join('')}</ul></div>
+        <div class="bmc-cell bmc-wide" style="border-color:var(--emerald)"><h5>💰 ${bl[8]}</h5><ul>${bmc.revenue.map(p=>'<li>'+p+'</li>').join('')}</ul></div>
+      </div>
+    </div>`;
+  })()}
+
+  <!-- INVESTOR PITCH -->
+  ${(()=>{
+    const p=generatePitch(d);const pl=tx.pitchLabels;
+    return `<div class="pitch-box">
+      <div class="pitch-header"><h3>🎤 ${tx.pitchTitle}</h3><span style="color:rgba(255,255,255,.6);font-size:11px">${tx.pitchSub}</span></div>
+      <div class="pitch-body">
+        ${pl.map((lb,i)=>{const vals=[p.problem,p.solution,p.market,p.model,p.advantage,p.team,p.financial,p.ask];
+          return `<div class="pitch-row"><div class="pitch-label">${lb}</div><div class="pitch-val">${vals[i]||'—'}</div></div>`;}).join('')}
+        <div class="pitch-metrics">
+          <div class="pitch-metric"><div class="pm-val" style="color:#10b981">%${d.overall}</div><div class="pm-lbl">${tx.winProb}</div></div>
+          <div class="pitch-metric"><div class="pm-val" style="color:#14b8a6">%${d.mcSurv}</div><div class="pm-lbl">${tx.survProb}</div></div>
+          <div class="pitch-metric"><div class="pm-val" style="color:${d.breakEven.roi>=0?'#10b981':'#f43f5e'}">${d.breakEven.roi>=0?'+':''}${d.breakEven.roi}%</div><div class="pm-lbl">ROI</div></div>
+          <div class="pitch-metric"><div class="pm-val" style="color:#0ea5e9">${d.breakEven.beMonth}M</div><div class="pm-lbl">Break-Even</div></div>
+        </div>
+      </div>
+    </div>`;
+  })()}
+
+  <!-- LIVE INDUSTRY DATA -->
+  <div class="card"><div class="card-ac"></div>
+    <div class="card-t">🌐 ${tx.liveTitle}</div>
+    <div class="card-sub">${tx.liveSub}</div>
+    <div id="liveContent"><div class="live-loading"><div class="live-spin"></div>${tx.liveLoading}</div></div>
+  </div>
+
+  <!-- 90-DAY CHECKLIST -->
+  ${renderChecklist()}
+
+  <!-- ACTIONS -->
+  <div class="acts">
+    <button class="btn btn-n" onclick="openShareModal()">🔗 ${LANG==='tr'?'Paylaş':'Share'}</button>
+    <button class="btn" style="background:var(--g1);color:#fff" onclick="downloadPDF()">📥 ${tx.pdfBtn}</button>
+    <button class="btn" style="background:var(--s2);border:1px solid var(--b1);color:var(--tx2)" onclick="window.print()">🖨️ ${tx.btnExport}</button>
+    <button class="btn btn-b" onclick="resetAll()">🔄 ${tx.btnReset}</button>
+  </div>
+  <div class="ftr"><p>${tx.footer1}</p><p style="margin-top:3px">${tx.footer2}</p></div>`;
+
+  el.classList.add('show');
+  el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function renderAISection(){
+  const tx=I[LANG];
+  const el=qs('#aiContent');
+  if(el){el.innerHTML=aiDone?`<div class="ai-txt">${aiText}</div>`:`<div class="ai-loading"><div class="ai-spin"></div>${tx.aiLoading}</div>`;}
+}
+
+// ════════════════════════════════════════════════
+// RUN ANALYSIS
+// ════════════════════════════════════════════════
+async function runAnalysis(){
+  const ld=qs('#loading');
+  const stepsEl=qs('#ldSteps');
+  const tx=I[LANG];
+  stepsEl.innerHTML=tx.ls.map((s,i)=>`<div class="ls" id="ls${i}"><span class="ck">✓</span>${s}</div>`).join('');
+  ld.classList.add('show');
+  for(let i=0;i<tx.ls.length;i++){
+    await new Promise(r=>setTimeout(r,350+Math.random()*300));
+    qs('#ls'+i)?.classList.add('ok');
+  }
+  await new Promise(r=>setTimeout(r,250));
+
+  analysisData=compute();
+  captureForm(); // Save form data before hiding panels
+  ld.classList.remove('show');
+
+  // Hide form
+  qa('.pnl').forEach(p=>p.classList.remove('on'));
+  qs('#hdrBlock').style.display='none';
+  qs('#stepperBlock').style.display='none';
+
+  renderResults();
+  callAI(analysisData);
+  fetchLiveData();
+  saveToHistory(analysisData);
+}
+
+function resetAll(){
+  qs('#results').classList.remove('show');
+  qs('#results').innerHTML='';
+  qs('#hdrBlock').style.display='';
+  qs('#stepperBlock').style.display='flex';
+  aiText='';aiDone=false;analysisData=null;liveData=null;liveDone=false;chatMessages=[];
+  goStep(0);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ════════════════════════════════════════════════
+// INTRO SCREEN
+// ════════════════════════════════════════════════
+function initIntro(){
+  const tx=I[LANG];
+  qs('#introTagline').textContent=tx.introTag;
+  qs('#introFeats').innerHTML=tx.introFeats.map(f=>`<span class="intro-feat">${f}</span>`).join('');
+  qs('#introBtn').textContent=tx.introBtn;
+  // Particles
+  const pc=qs('#particles');pc.innerHTML='';
+  for(let i=0;i<20;i++){
+    const p=document.createElement('div');p.className='p';
+    const s=3+Math.random()*6;
+    p.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${4+Math.random()*6}s;animation-delay:${Math.random()*3}s`;
+    pc.appendChild(p);
+  }
+}
+function dismissIntro(){
+  const el=qs('#introScreen');el.classList.add('hide');
+  setTimeout(()=>el.style.display='none',800);
+}
+
+// ════════════════════════════════════════════════
+// BUSINESS MODEL CANVAS GENERATOR
+// ════════════════════════════════════════════════
+function generateBMC(){
+  const f=savedForm;const L=LANG==='tr';const tx=I[LANG];
+  const sector=f.sector||'';const bm=f.bizModel||'';const diff=f.diffr||'';
+  const desc=f.desc||'';const idea=f.idea||'';
+
+  const canvas={
+    partners:[],activities:[],value:[],relations:[],segments:[],
+    resources:[],channels:[],costs:[],revenue:[]
+  };
+
+  // Smart BMC generation based on inputs
+  if(diff)canvas.value.push(diff);
+  if(desc){const words=desc.split(/[.,;]/);if(words[0])canvas.value.push(words[0].trim().substring(0,60));}
+  if(!canvas.value.length)canvas.value.push(L?'Müşteri problemini çözen benzersiz çözüm':'Unique solution to customer problem');
+
+  // Segments from target
+  canvas.segments.push(f.country&&f.city?`${f.city}, ${f.country}`:(L?'Hedef pazar müşterileri':'Target market customers'));
+  if(bm.includes('B2B'))canvas.segments.push(L?'KOBİ ve kurumsal müşteriler':'SMB and enterprise clients');
+  else if(bm.includes('B2C'))canvas.segments.push(L?'Son tüketiciler':'End consumers');
+  else canvas.segments.push(L?'Bireysel ve kurumsal müşteriler':'Individual and corporate clients');
+
+  // Channels
+  if(f.online>60){canvas.channels.push(L?'Web sitesi / uygulama':'Website / app');canvas.channels.push(L?'Sosyal medya':'Social media');}
+  else{canvas.channels.push(L?'Fiziksel mağaza / ofis':'Physical store / office');canvas.channels.push(L?'Online kanallar':'Online channels');}
+  canvas.channels.push(L?'Referans ağı':'Referral network');
+
+  // Revenue
+  if(bm.includes('SaaS')||bm.includes('Abone'))canvas.revenue.push(L?'Aylık/yıllık abonelik':'Monthly/annual subscription');
+  else if(bm.includes('Pazar')||bm.includes('Market'))canvas.revenue.push(L?'Komisyon geliri':'Commission revenue');
+  else canvas.revenue.push(L?'Ürün/hizmet satışı':'Product/service sales');
+  canvas.revenue.push(L?'Premium hizmetler':'Premium services');
+
+  // Costs
+  canvas.costs.push(L?`Ekip maaşları (${f.team} kişi)`:`Team salaries (${f.team} people)`);
+  canvas.costs.push(L?`Aylık operasyon: ${fmtCur(f.monthly)}`:`Monthly operations: ${fmtCur(f.monthly)}`);
+  canvas.costs.push(L?'Pazarlama & müşteri edinme':'Marketing & customer acquisition');
+
+  // Activities
+  canvas.activities.push(L?'Ürün/hizmet geliştirme':'Product/service development');
+  canvas.activities.push(L?'Müşteri edinme & pazarlama':'Customer acquisition & marketing');
+  canvas.activities.push(L?'Müşteri destek & başarı':'Customer support & success');
+
+  // Resources
+  canvas.resources.push(L?`Başlangıç sermayesi: ${fmtCur(f.capital)}`:`Starting capital: ${fmtCur(f.capital)}`);
+  canvas.resources.push(L?`${f.team} kişilik ekip`:`Team of ${f.team}`);
+  if(f.exp&&!f.exp.includes('0'))canvas.resources.push(L?'Sektör deneyimi':'Industry experience');
+
+  // Partners
+  canvas.partners.push(L?'Tedarikçiler':'Suppliers');
+  canvas.partners.push(L?'Teknoloji ortakları':'Technology partners');
+  if(bm.includes('Pazar')||bm.includes('Market'))canvas.partners.push(L?'Platform satıcıları':'Platform sellers');
+
+  // Relations
+  canvas.relations.push(L?'Kişisel destek':'Personal support');
+  if(f.online>50)canvas.relations.push(L?'Self-servis platform':'Self-service platform');
+  canvas.relations.push(L?'Topluluk oluşturma':'Community building');
+
+  return canvas;
+}
+
+// ════════════════════════════════════════════════
+// INVESTOR PITCH GENERATOR
+// ════════════════════════════════════════════════
+function generatePitch(data){
+  const f=savedForm;const L=LANG==='tr';const tx=I[LANG];
+  const pitch={};
+
+  pitch.problem=f.desc?(L?`${f.sector} sektöründe müşterilerin karşılaştığı temel problem: ${f.desc.substring(0,120)}...`:`Key problem customers face in ${f.sector}: ${f.desc.substring(0,120)}...`):(L?'Hedef pazardaki karşılanmamış müşteri ihtiyacı':'Unmet customer need in target market');
+  pitch.solution=f.idea+(f.diffr?` — ${f.diffr}`:'');
+  pitch.market=`${f.mktSize} | ${f.mktGrowth} | ${f.country||'—'}${f.city?' — '+f.city:''}`;
+  pitch.model=f.bizModel||'—';
+  pitch.advantage=f.diffr||(L?'Belirtilmemiş':'Not specified');
+  pitch.team=`${f.team} ${L?'kişi':'people'} | ${f.exp}`;
+  pitch.financial=`${L?'Sermaye':'Capital'}: ${fmtCur(f.capital)} | ${L?'Aylık':'Monthly'}: ${fmtCur(f.monthly)} | ROI: ${data.breakEven.roi>=0?'+':''}${data.breakEven.roi}% | Break-even: ${data.breakEven.beMonth} ${L?'ay':'mo'}`;
+  pitch.ask=fmtCur(Math.max(f.capital*2,50000));
+
+  return pitch;
+}
+
+// ════════════════════════════════════════════════
+// LIVE INDUSTRY DATA (AI Web Search)
+// ════════════════════════════════════════════════
+let liveData=null;let liveDone=false;
+async function fetchLiveData(){
+  liveDone=false;liveData=null;
+  const f=savedForm;const L=LANG==='tr';
+  const sector=f.sector||'';const country=f.country||'';
+
+  // Attempt 1: API with web search
+  try{
+    const searchQuery=L?
+      `"${sector}" sektörü ${country||'dünya'} pazar büyüklüğü, büyüme oranı, başlıca şirketler ve 2025-2026 tahminleri hakkında kısa bilgi ver. Her kategoriyi ayrı paragrafta yaz: 1) Pazar Büyüklüğü ve Trend 2) Güncel Gelişmeler 3) Önemli Oyuncular 4) Gelecek Tahminleri`
+      :
+      `Give brief info about "${sector}" industry in ${country||'global'}: market size, growth rate, major companies, and 2025-2026 forecasts. Write each category in a separate paragraph: 1) Market Size & Trends 2) Recent News 3) Key Players 4) Future Forecasts`;
+
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',max_tokens:1000,
+        tools:[{type:'web_search_20250305',name:'web_search'}],
+        messages:[{role:'user',content:searchQuery}]
+      })
+    });
+    const d=await res.json();
+    
+    // Extract all text blocks (web search responses have multiple content blocks)
+    let allText='';
+    if(d.content&&Array.isArray(d.content)){
+      for(const block of d.content){
+        if(block.type==='text'&&block.text)allText+=block.text+'\n';
+      }
+    }
+    
+    if(allText&&allText.length>30){
+      // Split into sections by paragraph or numbering
+      const sections=allText.split(/\n\s*\n|\n(?=\d[\.\)])/g).filter(s=>s.trim().length>10);
+      liveData={
+        marketSize:sections[0]?.trim()||allText.substring(0,250),
+        news:sections[1]?.trim()||(L?'Detay bulunamadı':'Details not found'),
+        players:sections[2]?.trim()||(L?'Detay bulunamadı':'Details not found'),
+        forecast:sections[3]?.trim()||(sections.length>1?sections[sections.length-1].trim():(L?'Detay bulunamadı':'Details not found'))
+      };
+    } else {
+      throw new Error('Empty response');
+    }
+  }catch(e1){
+    // Attempt 2: API without web search (uses training data)
+    try{
+      const fallbackQuery=L?
+        `${sector} sektörü hakkında ${country||'genel olarak'} şu bilgileri kısaca ver (her biri 1-2 cümle):
+1. Tahmini pazar büyüklüğü ve büyüme trendi
+2. Sektördeki önemli gelişmeler
+3. Başlıca büyük oyuncular/şirketler
+4. 2025-2026 için sektör beklentileri
+Markdown kullanma, düz metin yaz.`
+        :
+        `About the ${sector} industry ${country?'in '+country:'globally'}, briefly provide (1-2 sentences each):
+1. Estimated market size and growth trend
+2. Important recent developments
+3. Major players/companies
+4. Industry outlook for 2025-2026
+No markdown, plain text.`;
+
+      const res2=await fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,messages:[{role:'user',content:fallbackQuery}]})
+      });
+      const d2=await res2.json();
+      const txt2=d2.content?.filter(c=>c.type==='text').map(c=>c.text).join('\n')||'';
+      
+      if(txt2&&txt2.length>30){
+        const parts=txt2.split(/\n\s*\n|\n(?=\d[\.\)])/g).filter(s=>s.trim().length>5);
+        liveData={
+          marketSize:parts[0]?.replace(/^\d[\.\)]\s*/,'').trim()||txt2.substring(0,200),
+          news:parts[1]?.replace(/^\d[\.\)]\s*/,'').trim()||(L?'AI eğitim verisinden':'From AI training data'),
+          players:parts[2]?.replace(/^\d[\.\)]\s*/,'').trim()||(L?'Veri sınırlı':'Limited data'),
+          forecast:parts[3]?.replace(/^\d[\.\)]\s*/,'').trim()||(L?'Veri sınırlı':'Limited data')
+        };
+      } else {
+        throw new Error('Empty fallback');
+      }
+    }catch(e2){
+      // Attempt 3: Static intelligent fallback based on sector
+      liveData=generateStaticLiveData(sector,country,L);
+    }
+  }
+  liveDone=true;
+  renderLiveSection();
+}
+
+function generateStaticLiveData(sector,country,L){
+  const sectorData={
+    'Teknoloji / Yazılım':{size:'$5.3T global (2025)',grow:'+8-12%',players:'Apple, Microsoft, Google, Amazon, Meta',trend:'AI ve bulut bilişim odaklı büyüme devam ediyor'},
+    'Technology / Software':{size:'$5.3T global (2025)',grow:'+8-12%',players:'Apple, Microsoft, Google, Amazon, Meta',trend:'AI and cloud computing driving continued growth'},
+    'Gıda & İçecek':{size:'$8.9T global (2025)',grow:'+4-6%',players:'Nestlé, PepsiCo, Coca-Cola, Unilever, JBS',trend:'Sağlıklı beslenme ve sürdürülebilirlik trendleri hakim'},
+    'Food & Beverage':{size:'$8.9T global (2025)',grow:'+4-6%',players:'Nestlé, PepsiCo, Coca-Cola, Unilever, JBS',trend:'Health-conscious and sustainability trends dominating'},
+    'Perakende / E-Ticaret':{size:'$6.3T e-ticaret (2025)',grow:'+9-14%',players:'Amazon, Alibaba, Walmart, Shopify, Trendyol',trend:'Sosyal ticaret ve hızlı teslimat modelleri yükselişte'},
+    'Retail / E-Commerce':{size:'$6.3T e-commerce (2025)',grow:'+9-14%',players:'Amazon, Alibaba, Walmart, Shopify',trend:'Social commerce and quick delivery models rising'},
+    'Sağlık / Medikal':{size:'$12.2T global (2025)',grow:'+5-8%',players:'UnitedHealth, J&J, Pfizer, Roche, Abbott',trend:'Dijital sağlık ve telemedisin hızla büyüyor'},
+    'Healthcare / Medical':{size:'$12.2T global (2025)',grow:'+5-8%',players:'UnitedHealth, J&J, Pfizer, Roche, Abbott',trend:'Digital health and telemedicine growing rapidly'},
+  };
+  
+  const key=Object.keys(sectorData).find(k=>sector.includes(k.split('/')[0].trim()));
+  const data=sectorData[key]||null;
+  
+  if(data){
+    return {
+      marketSize:L?`${sector}: Tahmini ${data.size}, büyüme ${data.grow}/yıl`:`${sector}: Est. ${data.size}, growth ${data.grow}/year`,
+      news:L?data.trend:data.trend,
+      players:data.players,
+      forecast:L?`${country||'Global'} pazarında ${data.grow} büyüme bekleniyor. Dijitalleşme ve inovasyon temel itici güçler.`:`${country||'Global'} market expected to grow ${data.grow}. Digitalization and innovation are key drivers.`
+    };
+  }
+  
+  return {
+    marketSize:L?`${sector} sektörü ${country||'global'} pazarda büyüme eğiliminde. Kesin veriler için sektör raporlarına başvurun.`:`${sector} industry in ${country||'global'} market shows growth trend. Refer to industry reports for precise data.`,
+    news:L?'Dijitalleşme ve sürdürülebilirlik sektör genelinde öne çıkan trendler':'Digitalization and sustainability are prominent cross-sector trends',
+    players:L?'Sektöre özgü veriler için pazar araştırması önerilir':'Market research recommended for sector-specific data',
+    forecast:L?'Genel ekonomik koşullara bağlı olarak %3-8 arası büyüme beklentisi mevcut':'Growth expectation of 3-8% depending on general economic conditions'
+  };
+}
+
+function renderLiveSection(){
+  const tx=I[LANG];const el=qs('#liveContent');
+  if(!el)return;
+  if(!liveDone){
+    el.innerHTML=`<div class="live-loading"><div class="live-spin"></div>${tx.liveLoading}</div>`;
+    return;
+  }
+  const icons=['📊','📰','🏢','🔮'];
+  const vals=[liveData.marketSize,liveData.news,liveData.players,liveData.forecast];
+  el.innerHTML=`<div class="live-grid">${tx.liveLabels.map((lb,i)=>`<div class="live-card"><div class="lv-icon">${icons[i]}</div><div class="lv-title">${lb}</div><div class="lv-val">${vals[i]||'—'}</div></div>`).join('')}</div>`;
+}
+
+// ════════════════════════════════════════════════
+// THEME TOGGLE
+// ════════════════════════════════════════════════
+let isDark=true;
+function toggleTheme(){
+  isDark=!isDark;
+  document.documentElement.classList.toggle('light',!isDark);
+  try{localStorage.setItem('ts-theme',isDark?'dark':'light');}catch(e){}
+}
+function initTheme(){
+  try{const t=localStorage.getItem('ts-theme');if(t==='light'){isDark=false;document.documentElement.classList.add('light');}}catch(e){}
+}
+
+// ════════════════════════════════════════════════
+// ANALYSIS HISTORY (localStorage)
+// ════════════════════════════════════════════════
+function getHistory(){
+  try{return JSON.parse(localStorage.getItem('ts-history')||'[]');}catch(e){return[];}
+}
+function saveToHistory(data){
+  try{
+    const hist=getHistory();
+    const entry={
+      id:Date.now(),
+      date:new Date().toLocaleDateString(),
+      name:savedForm.idea||'—',
+      sector:savedForm.sector||'—',
+      overall:data.overall,
+      survival:data.mcSurv,
+      currency:CUR,
+      lang:LANG,
+      formSnapshot:{...savedForm},
+      rivalsSnapshot:[...rivals_data]
+    };
+    hist.unshift(entry);
+    if(hist.length>20)hist.length=20;
+    localStorage.setItem('ts-history',JSON.stringify(hist));
+  }catch(e){}
+}
+function openHistory(){
+  qs('#histPanel').classList.add('open');
+  qs('#histOverlay').classList.add('open');
+  renderHistory();
+}
+function closeHistory(){
+  qs('#histPanel').classList.remove('open');
+  qs('#histOverlay').classList.remove('open');
+}
+function renderHistory(){
+  const tx=I[LANG];const hist=getHistory();const el=qs('#histList');
+  if(!hist.length){el.innerHTML=`<div class="hist-empty">📭 ${tx.histEmpty}</div>`;return;}
+  el.innerHTML=hist.map((h,i)=>{
+    const vc=h.overall>=60?'#10b981':h.overall>=45?'#f59e0b':'#f43f5e';
+    return `<div class="hist-item" onclick="loadHistoryItem(${i})">
+      <span class="hi-score" style="color:${vc}">%${h.overall}</span>
+      <div class="hi-name">${h.name}</div>
+      <div class="hi-meta">${h.sector} • ${h.date}</div>
+    </div>`;
+  }).join('');
+}
+function loadHistoryItem(idx){
+  const hist=getHistory();const h=hist[idx];if(!h)return;
+  closeHistory();
+  // Restore form data
+  savedForm=h.formSnapshot||{};
+  rivals_data=h.rivalsSnapshot||[];
+  CUR=h.currency||'USD';LANG=h.lang||'tr';
+  qs('#curSel').value=CUR;setCurrency(CUR);setLang(LANG);
+  // Recompute
+  // We need to fill form fields from snapshot for compute to work
+  const fMap={ideaName:'idea',sector:'sector',ideaDesc:'desc',diffr:'diffr',country:'country',city:'city',
+    capital:'capital',monthly:'monthly',runway:'runway',teamSize:'team',experience:'exp',techCap:'techCap',
+    bizModel:'bizModel',timeline:'timeline',rivals:'rivals',bigPlayer:'bigPlayer',entryBar:'entryBar',
+    subThreat:'subThreat',pricePressure:'pricePressure',loyalty:'loyalty',innov:'innov',brandStr:'brandStr',
+    mktSize:'mktSize',mktGrowth:'mktGrowth',custPower:'custPower',suppPower:'suppPower',
+    regRisk:'regRisk',techDisrupt:'techDisrupt',seasonality:'seasonality',onlineShare:'online'};
+  // Set values silently
+  for(const[elId,fKey] of Object.entries(fMap)){
+    const el=qs('#'+elId);if(el&&savedForm[fKey]!==undefined)el.value=savedForm[fKey];
+  }
+  savedForm.mktGrowthVal=+(savedForm.mktGrowthVal||savedForm.mktGrowth||2);
+  analysisData=compute();
+  qa('.pnl').forEach(p=>p.classList.remove('on'));
+  qs('#hdrBlock').style.display='none';
+  qs('#stepperBlock').style.display='none';
+  renderResults();
+}
+
+// ════════════════════════════════════════════════
+// SHARE
+// ════════════════════════════════════════════════
+function openShareModal(){
+  const d=analysisData;if(!d)return;
+  const L=LANG==='tr';
+  const name=savedForm.idea||'—';
+  const text=L?
+    `🚀 ${name} — Rekabet Analizi\n📊 Kazanma Olasılığı: %${d.overall}\n🛡️ Hayatta Kalma: %${d.mcSurv}\n📐 Break-Even: ${d.breakEven.beMonth} ay\n💰 ROI: ${d.breakEven.roi}%\n\n#Traction Scope #Girişimcilik #İşletme #Startup`
+    :
+    `🚀 ${name} — Competition Analysis\n📊 Win Probability: ${d.overall}%\n🛡️ Survival Rate: ${d.mcSurv}%\n📐 Break-Even: ${d.breakEven.beMonth} months\n💰 ROI: ${d.breakEven.roi}%\n\n#Traction Scope #Entrepreneurship #Business #Startup`;
+  
+  qs('#shareText').value=text;
+  const encoded=encodeURIComponent(text);
+  qs('#shareLinkedIn').href=`https://www.linkedin.com/feed/?shareActive=true&text=${encoded}`;
+  qs('#shareTwitter').href=`https://twitter.com/intent/tweet?text=${encoded}`;
+  qs('#shareModal').classList.add('open');
+}
+function shareWhatsApp(){
+  const text=qs('#shareText').value;
+  window.open(`https://wa.me/?text=${encodeURIComponent(text)}`,'_blank');
+}
+function copyShareText(){
+  const input=qs('#shareText');
+  navigator.clipboard.writeText(input.value).then(()=>{
+    const btn=qs('#copyBtn');btn.textContent='✅';
+    setTimeout(()=>btn.textContent='📋',1500);
+  }).catch(()=>{input.select();document.execCommand('copy');});
+}
+function closeShareModal(){qs('#shareModal').classList.remove('open');}
+
+// ════════════════════════════════════════════════
+// SECTOR BENCHMARK
+// ════════════════════════════════════════════════
+function getSectorBenchmarks(sector){
+  const benchmarks={
+    tech:{margin:62,growth:75,digital:85,retention:60,innovation:80},
+    food:{margin:35,growth:45,digital:40,retention:55,innovation:35},
+    retail:{margin:40,growth:55,digital:65,retention:50,innovation:45},
+    health:{margin:55,growth:60,digital:50,retention:70,innovation:65},
+    edu:{margin:45,growth:50,digital:55,retention:65,innovation:50},
+    finance:{margin:70,growth:50,digital:70,retention:75,innovation:55},
+    mfg:{margin:38,growth:35,digital:35,retention:60,innovation:40},
+    agri:{margin:30,growth:40,digital:25,retention:55,innovation:30},
+    tourism:{margin:42,growth:55,digital:50,retention:45,innovation:40},
+    logistics:{margin:35,growth:50,digital:55,retention:60,innovation:45},
+    energy:{margin:50,growth:45,digital:40,retention:70,innovation:55},
+    realestate:{margin:55,growth:40,digital:35,retention:65,innovation:30},
+    saas:{margin:72,growth:80,digital:90,retention:65,innovation:85},
+    marketplace:{margin:50,growth:70,digital:80,retention:50,innovation:70},
+  };
+  return benchmarks[sector]||{margin:45,growth:50,digital:50,retention:55,innovation:45};
+}
+
+function renderBenchmark(data){
+  const tx=I[LANG];const f=savedForm;
+  const bench=getSectorBenchmarks(f.sector||'other');
+  const yourScores={
+    margin:Math.min(100,Math.round(data.dims[2]*0.6+data.dims[0]*0.3)),
+    growth:Math.min(100,Math.round(data.dims[0]*0.7+data.dims[3]*0.2)),
+    digital:Math.min(100,Math.round((f.online||50)*0.8+(+(f.techCap)||1)*12)),
+    retention:Math.min(100,Math.round(data.dims[1]*0.5+data.dims[4]*0.3+20)),
+    innovation:Math.min(100,Math.round((+(f.innov)||5)*8+(+(f.techCap)||1)*5+10))
+  };
+  const keys=['margin','growth','digital','retention','innovation'];
+  const yourColors=['#10b981','#0ea5e9','#8b5cf6','#f59e0b','#f43f5e'];
+
+  return `<div class="card"><div class="card-ac"></div>
+    <div class="card-t">📏 ${tx.benchTitle}</div>
+    <div class="card-sub">${tx.benchSub}</div>
+    ${keys.map((k,i)=>`<div class="bench-row">
+      <div class="bench-label">${tx.benchDims[i]}</div>
+      <div class="bench-track">
+        <div class="bench-avg" style="width:${bench[k]}%"><span>${bench[k]}%</span></div>
+        <div class="bench-you" style="width:${yourScores[k]}%;background:${yourColors[i]}"><span>${yourScores[k]}%</span></div>
+      </div>
+    </div>`).join('')}
+    <div class="bench-legend">
+      <span><span class="bl-dot" style="background:var(--indigo);opacity:.3"></span>${tx.benchAvg}</span>
+      <span><span class="bl-dot" style="background:var(--emerald)"></span>${tx.benchYou}</span>
+    </div>
+  </div>`;
+}
+
+// ════════════════════════════════════════════════
+// 90-DAY CHECKLIST
+// ════════════════════════════════════════════════
+let checklistState={};
+function initChecklist(){
+  try{checklistState=JSON.parse(localStorage.getItem('ts-checklist')||'{}');}catch(e){checklistState={};}
+}
+function toggleCheck(weekIdx,itemIdx){
+  const key=`${weekIdx}-${itemIdx}`;
+  checklistState[key]=!checklistState[key];
+  try{localStorage.setItem('ts-checklist',JSON.stringify(checklistState));}catch(e){}
+  updateChecklistUI();
+}
+function updateChecklistUI(){
+  const tx=I[LANG];
+  const total=tx.clItems.flat().length;
+  const done=Object.values(checklistState).filter(v=>v).length;
+  const pct=Math.round(done/total*100);
+  const progEl=document.getElementById('clProgFill');
+  const txtEl=document.getElementById('clProgText');
+  if(progEl)progEl.style.width=pct+'%';
+  if(txtEl)txtEl.textContent=`${done}/${total} (${pct}%)`;
+  // Update item states
+  document.querySelectorAll('.cl-item').forEach(el=>{
+    const w=el.dataset.week,i=el.dataset.item;
+    const key=`${w}-${i}`;
+    el.classList.toggle('done',!!checklistState[key]);
+  });
+}
+
+function renderChecklist(){
+  const tx=I[LANG];
+  const total=tx.clItems.flat().length;
+  const done=Object.values(checklistState).filter(v=>v).length;
+  const pct=Math.round(done/total*100);
+
+  return `<div class="card"><div class="card-ac"></div>
+    <div class="card-t">✅ ${tx.clTitle}</div>
+    <div class="card-sub">${tx.clSub}</div>
+    <div class="cl-progress">
+      <div class="cl-progress-bar"><div class="cl-progress-fill" id="clProgFill" style="width:${pct}%"></div></div>
+      <div class="cl-progress-text" id="clProgText">${done}/${total} (${pct}%)</div>
+    </div>
+    <div class="cl-timeline">
+      ${tx.clWeeks.map((wk,wi)=>`<div class="cl-week">
+        <div class="cl-week-title">${wk}</div>
+        ${tx.clItems[wi].map((item,ii)=>{const key=`${wi}-${ii}`;const isDone=!!checklistState[key];
+          return `<div class="cl-item ${isDone?'done':''}" data-week="${wi}" data-item="${ii}" onclick="toggleCheck(${wi},${ii})">
+            <div class="cl-check">${isDone?'✓':''}</div>${item}
+          </div>`;}).join('')}
+      </div>`).join('')}
+    </div>
+  </div>`;
+}
+
+// ════════════════════════════════════════════════
+// AI Q&A CHAT
+// ════════════════════════════════════════════════
+let chatMessages=[];
+let chatBusy=false;
+
+function renderAIChat(){
+  const tx=I[LANG];
+  return `<div class="ai-chat" id="aiChatSection">
+    <div class="card-t" style="font-size:.95rem">💬 ${tx.aiChatTitle}</div>
+    <div class="card-sub">${tx.aiChatSub}</div>
+    <div class="ai-chat-suggest" id="chatSuggestions">
+      ${tx.aiChatSuggestions.map(s=>`<button onclick="askAIChat('${s.replace(/'/g,"\\'")}')">${s}</button>`).join('')}
+    </div>
+    <div class="ai-chat-messages" id="chatMessages"></div>
+    <div class="ai-chat-input">
+      <input id="chatInput" placeholder="${tx.aiChatPh}" onkeydown="if(event.key==='Enter')sendChat()">
+      <button onclick="sendChat()" id="chatSendBtn">${tx.aiChatSend}</button>
+    </div>
+  </div>`;
+}
+
+function askAIChat(q){
+  document.getElementById('chatInput').value=q;
+  sendChat();
+}
+
+async function sendChat(){
+  if(chatBusy)return;
+  const input=document.getElementById('chatInput');
+  const q=input.value.trim();if(!q)return;
+  input.value='';chatBusy=true;
+  document.getElementById('chatSendBtn').disabled=true;
+
+  chatMessages.push({role:'user',text:q});
+  renderChatMessages();
+
+  const f=savedForm;const d=analysisData;const L=LANG==='tr';
+  const context=L?
+    `Sen bir iş stratejisi danışmanısın. Kullanıcı "Traction Scope" uygulamasında bir analiz yaptı. Sonuçlar:
+İş Fikri: ${f.idea||'?'} | Sektör: ${f.sector||'?'} | Ülke: ${f.country||'?'}
+Kazanma: %${d.overall} | Hayatta Kalma: %${d.mcSurv} | Boyutlar: Pazar=${d.dims[0]}, Rekabet=${d.dims[1]}, Kaynak=${d.dims[2]}, Zamanlama=${d.dims[3]}
+Sermaye: ${fmtCur(f.capital||0)} | Ekip: ${f.team||1} | Rakip: ~${f.rivals||5}
+Porter Ort: ${d.porterAvg.toFixed(1)}/10 | Break-Even: ${d.breakEven.beMonth} ay | ROI: ${d.breakEven.roi}%
+Kullanıcının sorusuna kısa ve net cevap ver (3-5 cümle). Türkçe yaz. Markdown kullanma.`
+    :
+    `You are a business strategy consultant. The user ran an analysis on "Traction Scope". Results:
+Business: ${f.idea||'?'} | Sector: ${f.sector||'?'} | Country: ${f.country||'?'}
+Win: ${d.overall}% | Survival: ${d.mcSurv}% | Dims: Market=${d.dims[0]}, Competition=${d.dims[1]}, Resources=${d.dims[2]}, Timing=${d.dims[3]}
+Capital: ${fmtCur(f.capital||0)} | Team: ${f.team||1} | Rivals: ~${f.rivals||5}
+Porter Avg: ${d.porterAvg.toFixed(1)}/10 | Break-Even: ${d.breakEven.beMonth}mo | ROI: ${d.breakEven.roi}%
+Answer the user's question briefly (3-5 sentences). No markdown.`;
+
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:400,
+        messages:[{role:'user',content:context+'\n\nSoru: '+q}]})
+    });
+    const data=await res.json();
+    const txt=data.content?.filter(c=>c.type==='text').map(c=>c.text).join('\n')||
+      (L?'Şu an yanıt veremiyorum, lütfen tekrar deneyin.':'Unable to respond right now, please try again.');
+    chatMessages.push({role:'bot',text:txt});
+  }catch(e){
+    chatMessages.push({role:'bot',text:L?'Bağlantı hatası. Lütfen tekrar deneyin.':'Connection error. Please try again.'});
+  }
+  chatBusy=false;
+  document.getElementById('chatSendBtn').disabled=false;
+  renderChatMessages();
+}
+
+function renderChatMessages(){
+  const el=document.getElementById('chatMessages');if(!el)return;
+  el.innerHTML=chatMessages.map(m=>`<div class="ai-msg ${m.role}">${m.text}</div>`).join('');
+  el.scrollTop=el.scrollHeight;
+}
+
+// ════════════════════════════════════════════════
+// SWOT ACTION MATCHING
+// ════════════════════════════════════════════════
+function generateSwotActions(weaknesses){
+  const L=LANG==='tr';
+  const actionMap={
+    'deneyim':{icon:'🎓',action:L?'Sektör mentoru edinin, haftada 2 networking etkinliğine katılın':'Get an industry mentor, attend 2 networking events/week'},
+    'experience':{icon:'🎓',action:L?'Sektör mentoru edinin, haftada 2 networking etkinliğine katılın':'Get an industry mentor, attend 2 networking events/week'},
+    'sermaye':{icon:'💰',action:L?'MVP ile yalın başlayın, melek yatırımcı/hibe programlarına başvurun':'Start lean with MVP, apply to angel investors/grant programs'},
+    'capital':{icon:'💰',action:L?'MVP ile yalın başlayın, melek yatırımcı/hibe programlarına başvurun':'Start lean with MVP, apply to angel investors/grant programs'},
+    'rekabet':{icon:'🎯',action:L?'Niş segment seçin, rakiplerin zayıf olduğu alana odaklanın':'Pick a niche, focus where competitors are weak'},
+    'compet':{icon:'🎯',action:L?'Niş segment seçin, rakiplerin zayıf olduğu alana odaklanın':'Pick a niche, focus where competitors are weak'},
+    'büyük oyuncu':{icon:'🛡️',action:L?'Devlerle doğrudan savaşmayın, onların görmezden geldiği segmente girin':'Don\'t fight giants head-on, enter segments they ignore'},
+    'major player':{icon:'🛡️',action:L?'Devlerle doğrudan savaşmayın, onların görmezden geldiği segmente girin':'Don\'t fight giants head-on, enter segments they ignore'},
+    'dominan':{icon:'🛡️',action:L?'Platform/ekosistem stratejisi ile büyüklerin tamamlayıcısı olun':'Become a complement to giants with platform/ecosystem strategy'},
+    'farklılaş':{icon:'💎',action:L?'Müşteri deneyiminde radikal fark yaratın, fiyat yerine değer satın':'Create radical UX difference, sell value not price'},
+    'differenti':{icon:'💎',action:L?'Müşteri deneyiminde radikal fark yaratın, fiyat yerine değer satın':'Create radical UX difference, sell value not price'},
+    'tek kişi':{icon:'👥',action:L?'Co-founder veya freelancer ile ekibi genişletin, kritik rolleri dışarıdan alın':'Expand with co-founder or freelancers, outsource critical roles'},
+    'solo':{icon:'👥',action:L?'Co-founder veya freelancer ile ekibi genişletin, kritik rolleri dışarıdan alın':'Expand with co-founder or freelancers, outsource critical roles'},
+    'teknoloji':{icon:'⚙️',action:L?'No-code/low-code araçlarla hızlı başlayın, teknik borcu sonra temizleyin':'Start fast with no-code/low-code, clean tech debt later'},
+    'tech':{icon:'⚙️',action:L?'No-code/low-code araçlarla hızlı başlayın, teknik borcu sonra temizleyin':'Start fast with no-code/low-code, clean tech debt later'},
+    'marka':{icon:'📢',action:L?'İçerik pazarlama + topluluk oluşturma ile organik marka bilinirliği yaratın':'Build organic brand awareness with content marketing + community'},
+    'brand':{icon:'📢',action:L?'İçerik pazarlama + topluluk oluşturma ile organik marka bilinirliği yaratın':'Build organic brand awareness with content marketing + community'},
+  };
+
+  return weaknesses.map(w=>{
+    const wLower=w.toLowerCase();
+    for(const[key,val] of Object.entries(actionMap)){
+      if(wLower.includes(key))return{weakness:w,...val};
+    }
+    return{weakness:w,icon:'💡',action:L?'Bu zayıflığı fırsata çevirmek için spesifik bir eylem planı oluşturun':'Create a specific action plan to turn this weakness into an opportunity'};
+  });
+}
+
+// ════════════════════════════════════════════════
+// EXECUTIVE DASHBOARD RENDERER
+// ════════════════════════════════════════════════
+function renderExecDashboard(d){
+  const tx=I[LANG];
+  const metrics=[
+    {val:d.overall,icon:'🎯',color:'#6366f1'},
+    {val:d.mcSurv,icon:'🛡️',color:'#14b8a6'},
+    {val:d.dims[0],icon:'📊',color:'#0ea5e9'},
+    {val:d.dims[1],icon:'⚔️',color:'#8b5cf6'},
+    {val:d.dims[2],icon:'💎',color:'#10b981'},
+    {val:d.dims[3],icon:'⏱️',color:'#f59e0b'},
+    {val:Math.round(d.porterAvg*10),icon:'🎯',color:'#3b82f6'},
+    {val:Math.max(0,100-d.breakEven.beMonth*2.5),icon:'📐',color:'#06b6d4'}
+  ];
+  
+  return `<div class="exec-dash"><div class="card-ac"></div>
+    <div class="card-t">📊 ${tx.execTitle}</div>
+    <div class="exec-gauge">
+      ${metrics.map((m,i)=>`<div class="exec-gauge-item">
+        <div class="eg-bar"><div class="eg-fill" style="height:${m.val}%;background:${m.color}"></div></div>
+        <div class="eg-lbl">${tx.execLabels[i]}</div>
+        <div style="font-family:IBM Plex Mono;font-size:10px;font-weight:700;color:${m.color};margin-top:1px">${m.val}%</div>
+      </div>`).join('')}
+    </div>
+    <div class="exec-grid" style="margin-top:14px">
+      <div class="exec-mini"><div class="em-icon" style="background:rgba(99,102,241,.1)">🎯</div><div><div class="em-val" style="color:#6366f1">%${d.overall}</div><div class="em-lbl">${tx.winProb}</div></div></div>
+      <div class="exec-mini"><div class="em-icon" style="background:rgba(20,184,166,.1)">🛡️</div><div><div class="em-val" style="color:#14b8a6">%${d.mcSurv}</div><div class="em-lbl">${tx.survProb}</div></div></div>
+      <div class="exec-mini"><div class="em-icon" style="background:rgba(16,185,129,.1)">📐</div><div><div class="em-val" style="color:#10b981">${d.breakEven.beMonth}M</div><div class="em-lbl">Break-Even</div></div></div>
+      <div class="exec-mini"><div class="em-icon" style="background:${d.breakEven.roi>=0?'rgba(16,185,129,.1)':'rgba(244,63,94,.1)'}">💰</div><div><div class="em-val" style="color:${d.breakEven.roi>=0?'#10b981':'#f43f5e'}">${d.breakEven.roi>=0?'+':''}${d.breakEven.roi}%</div><div class="em-lbl">ROI</div></div></div>
+    </div>
+  </div>`;
+}
+
+// ════════════════════════════════════════════════
+// PDF DOWNLOAD
+// ════════════════════════════════════════════════
+function downloadPDF(){
+  // Use print-to-PDF approach with clean styling
+  const style=document.createElement('style');
+  style.id='pdf-style';
+  style.textContent=`@media print{*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}body{background:#fff!important}
+    .topbar,.acts,.btn,.add-rival,.nav-r{display:none!important}.bg-w,.bg-grid,.noise{display:none!important}
+    .app{max-width:100%!important;padding:10px!important}
+    .card,.dm,.ai-b,.scen-c,.be-stat,.sc-item,.sw-c,.rec-i,.rival-card,.risk-card{break-inside:avoid}
+    .card,.dm,.ai-b{border:1px solid #ddd!important;background:#fafafa!important}
+    .card-ac{background:#333!important}
+    svg text{fill:#333!important}
+    .circ .trail{stroke:#ddd!important}
+    .hero,.ftr{break-inside:avoid}}`;
+  document.head.appendChild(style);
+  window.print();
+  setTimeout(()=>document.getElementById('pdf-style')?.remove(),1000);
+}
+
+// ════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════
+applyI18n();
+initIntro();
+initTheme();
+initChecklist();
+</script>
+</body>
+</html>
