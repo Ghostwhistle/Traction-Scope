@@ -48,7 +48,7 @@ Traction Scope, girişimcilerin **"Pazara girmeli miyim?"** sorusunu veriye daya
 
 ## 🚀 Nasıl Kullanılır?
 
-1. **[ghostwhistle.github.io/traction-scope](https://alimc48.github.io/traction-scope/)** adresine git
+1. **[alimc48.github.io/traction-scope](https://alimc48.github.io/Traction-Scope/)** adresine git
 2. İş fikrinizi, finansal verilerinizi ve rakiplerinizi girin (3 adımlı form)
 3. **"Analizi Başlat"** butonuna basın
 4. 30 saniye içinde 24+ analiz modülünü görün
@@ -82,7 +82,7 @@ Pamukkale Üniversitesi'nde İngilizce İşletme öğrencisiyim. Akademik teori 
 
 Üç temel sorudan birine cevap veriyor:
 - ✅ "Pazara girmeli miyim?" → **Traction Scope**
-- 🔜 "Şirketim ne kadar eder?" → [ValuScope](https://github.com/ghostwhistle/valuscope)
+- 🔜 "Şirketim ne kadar eder?" → [ValuScope](https://github.com/alimc48/valuscope)
 - 🔜 "Müşteriye nasıl ulaşırım?" → Marketing Studio (geliştirme aşamasında)
 
 ---
@@ -98,7 +98,7 @@ Bu kod yalnızca görüntüleme amacıyla paylaşılmıştır. İzinsiz kopyalam
 ## 📬 İletişim
 
 - **LinkedIn:** [linkedin.com/in/alimceler]([https://linkedin.com/in/alimceler](https://www.linkedin.com/in/alim%C3%A7eler/))
-- **GitHub:** [@ghostwhistle](https://github.com/ghostwhistle)
+- **GitHub:** [@alimc48](https://github.com/Alimc48)
 - **Konum:** Denizli, Türkiye
 
 ---
