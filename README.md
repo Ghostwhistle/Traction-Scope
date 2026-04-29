@@ -97,7 +97,7 @@ Bu kod yalnızca görüntüleme amacıyla paylaşılmıştır. İzinsiz kopyalam
 
 ## 📬 İletişim
 
-- **LinkedIn:** [linkedin.com/in/alimceler](https://linkedin.com/in/alimceler)
+- **LinkedIn:** [linkedin.com/in/alimceler]([https://linkedin.com/in/alimceler](https://www.linkedin.com/in/alim%C3%A7eler/))
 - **GitHub:** [@ghostwhistle](https://github.com/ghostwhistle)
 - **Konum:** Denizli, Türkiye
 
